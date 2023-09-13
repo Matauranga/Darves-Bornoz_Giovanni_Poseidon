@@ -8,16 +8,30 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "rating")
-public class Rating {
+public class Rating implements UpdatableModel<Rating>{
     // TODO: Map columns in data table RATING with corresponding java fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String moodysRating;
+
     private String sandPRating;
+
     private String fitchRating;
+
     private Integer orderNumber;
+
+    public Rating update(Rating model) {
+
+        moodysRating = model.getMoodysRating();
+        sandPRating = model.getSandPRating();
+        fitchRating = model.getFitchRating();
+        orderNumber = model.getOrderNumber();
+
+        return this;
+    }
 
 
 }

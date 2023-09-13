@@ -68,7 +68,6 @@ public class BidList implements UpdatableModel<BidList> {
 
         account = model.getAccount();
         type = model.getType();
-
         bidQuantity = model.getBidQuantity();
         askQuantity = model.getAskQuantity();
         bid = model.getBid();
@@ -76,12 +75,11 @@ public class BidList implements UpdatableModel<BidList> {
         benchmark = model.getBenchmark();
         bidListDate = model.getBidListDate();
         commentary = model.getCommentary();
+
         security = model.getSecurity();
         status = model.getStatus();
         trader = model.getTrader();
         book = model.getBook();
-        // creationName = model.getCreationName();
-        // creationDate = model.getCreationDate();
         revisionName = model.getRevisionName();
         revisionDate = model.getRevisionDate();
         dealName = model.getDealName();
