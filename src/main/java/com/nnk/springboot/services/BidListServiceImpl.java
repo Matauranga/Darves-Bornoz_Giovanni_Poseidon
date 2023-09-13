@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BidListServiceImpl extends AbstractCrudService<BidList> {
 
-    public BidListServiceImpl(BidListRepository repository){
+    public BidListServiceImpl(BidListRepository repository) {
         super(repository);
     }
 
