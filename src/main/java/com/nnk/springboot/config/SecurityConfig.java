@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -20,8 +22,8 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+    public SecurityConfig(UserDetailsService userDetailsService) {this.userDetailsService = userDetailsService;}
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -33,27 +35,28 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/sign-up/**").permitAll()
+                        authorize.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(
-                        form -> form
-                                .loginPage("/login")
-                                .usernameParameter("email")
-                                .passwordParameter("password")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/transfer", true)
-                                .permitAll()
-
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                                .logoutSuccessUrl("/login")
-                )
+//                .formLogin(
+//                        form -> form
+//                                .loginPage("/login")
+//                                .usernameParameter("email")
+//                                .passwordParameter("password")
+//                                .loginProcessingUrl("/home")
+//                                .defaultSuccessUrl("/bidList", true)
+//                                .permitAll()
+//
+//                ).logout(
+//                        logout -> logout
+//                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                                .permitAll()
+//                                .logoutSuccessUrl("/home")
+//                )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
+
     }
 
     @Autowired
@@ -64,3 +67,7 @@ public class SecurityConfig {
     }
 
 }
+
+
+
+

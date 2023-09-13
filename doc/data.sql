@@ -1,6 +1,6 @@
-CREATE TABLE BidList
+CREATE TABLE bidList
 (
-    BidListId    tinyint(4) NOT NULL AUTO_INCREMENT,
+    bidListId    tinyint(4) NOT NULL AUTO_INCREMENT,
     account      VARCHAR(30) NOT NULL,
     type         VARCHAR(30) NOT NULL,
     bidQuantity DOUBLE,
@@ -24,9 +24,9 @@ CREATE TABLE BidList
     side         VARCHAR(125),
 
     PRIMARY KEY (BidListId)
-)
+);
 
-CREATE TABLE Trade
+CREATE TABLE trade
 (
     TradeId      tinyint(4) NOT NULL AUTO_INCREMENT,
     account      VARCHAR(30) NOT NULL,
@@ -51,9 +51,9 @@ CREATE TABLE Trade
     side         VARCHAR(125),
 
     PRIMARY KEY (TradeId)
-)
+);
 
-CREATE TABLE CurvePoint
+CREATE TABLE curvePoint
 (
     Id           tinyint(4) NOT NULL AUTO_INCREMENT,
     CurveId      tinyint,
@@ -63,9 +63,9 @@ CREATE TABLE CurvePoint
     creationDate TIMESTAMP,
 
     PRIMARY KEY (Id)
-)
+);
 
-CREATE TABLE Rating
+CREATE TABLE rating
 (
     Id           tinyint(4) NOT NULL AUTO_INCREMENT,
     moodysRating VARCHAR(125),
@@ -74,9 +74,9 @@ CREATE TABLE Rating
     orderNumber  tinyint,
 
     PRIMARY KEY (Id)
-)
+);
 
-CREATE TABLE RuleName
+CREATE TABLE ruleName
 (
     Id          tinyint(4) NOT NULL AUTO_INCREMENT,
     name        VARCHAR(125),
@@ -87,9 +87,9 @@ CREATE TABLE RuleName
     sqlPart     VARCHAR(125),
 
     PRIMARY KEY (Id)
-)
+);
 
-CREATE TABLE Users
+CREATE TABLE users
 (
     Id       tinyint(4) NOT NULL AUTO_INCREMENT,
     username VARCHAR(125),
@@ -98,5 +98,7 @@ CREATE TABLE Users
     role     VARCHAR(125),
 
     PRIMARY KEY (Id)
-) insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN")
-insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER")
+); 
+
+insert into users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN");
+insert into users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER");
