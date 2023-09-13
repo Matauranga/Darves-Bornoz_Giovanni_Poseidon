@@ -4,11 +4,12 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
-
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -63,6 +64,12 @@ public class BidList implements UpdatableModel<BidList> {
     private String sourceListId;
 
     private String side;
+
+    public BidList(String account, String type, Double bidQuantity) {
+        this.account = account;
+        this.type = type;
+        this.bidQuantity = bidQuantity;
+    }
 
     public BidList update(BidList model) {
 

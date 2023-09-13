@@ -3,15 +3,17 @@ package com.nnk.springboot.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "trade")
-public class Trade implements UpdatableModel<Trade>{
+public class Trade implements UpdatableModel<Trade> {
     // TODO: Map columns in data table TRADE with corresponding java fields
 
     @Id
@@ -59,6 +61,11 @@ public class Trade implements UpdatableModel<Trade>{
     private String sourceListId;
 
     private String side;
+
+    public Trade(String account, String type) {
+        this.account = account;
+        this.type = type;
+    }
 
     public Trade update(Trade model) {
 
