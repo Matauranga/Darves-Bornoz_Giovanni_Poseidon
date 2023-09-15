@@ -23,7 +23,10 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
-    public SecurityConfig(UserDetailsService userDetailsService) {this.userDetailsService = userDetailsService;}
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -39,21 +42,21 @@ public class SecurityConfig {
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
-//                .formLogin(
-//                        form -> form
-//                                .loginPage("/login")
-//                                .usernameParameter("email")
-//                                .passwordParameter("password")
-//                                .loginProcessingUrl("/home")
-//                                .defaultSuccessUrl("/bidList", true)
-//                                .permitAll()
-//
-//                ).logout(
-//                        logout -> logout
-//                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//                                .permitAll()
-//                                .logoutSuccessUrl("/home")
-//                )
+                .formLogin(
+                        form -> form
+                                .loginPage("/login")
+                                .usernameParameter("user")
+                                .passwordParameter("password")
+                                .loginProcessingUrl("/login")
+                                .defaultSuccessUrl("/bidList/list", true)
+                                .permitAll()
+
+                ).logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .permitAll()
+                                .logoutSuccessUrl("/home")
+                )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
 

@@ -1,6 +1,9 @@
 package com.nnk.springboot.services;
 
+import com.nnk.springboot.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,30 +14,29 @@ import java.util.HashSet;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-/*
+
     @Autowired
-    private PersonRepository userRepository;
+    private UserRepository userRepository;
 
     /**
-     * @param email the username identifying the user whose data is required.
+     * @param username
      * @return a fully populated user record
      */
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-       /* Person person = userRepository.findByEmail(email);
+        com.nnk.springboot.domain.User user = userRepository.findUserByUsername(username);
 
-        if (person == null) {
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
 
         return new User
                 (
-                        person.getEmail(),
-                        person.getPassword(),
+                        user.getUsername(),
+                        user.getPassword(),
                         getAuthorities()
-                );*/
-        return null;
+                );
     }
 
     /**

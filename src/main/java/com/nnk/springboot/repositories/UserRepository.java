@@ -8,4 +8,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {//TODO : inspect
 
+    /**
+     *
+     *
+     * @param username
+     * @return
+     */
+    User findUserByUsername(String username);
+
+
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UpdatableModel<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
