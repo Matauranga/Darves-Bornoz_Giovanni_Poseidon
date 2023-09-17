@@ -1,6 +1,8 @@
 INSERT INTO PUBLIC.USERS(ID, FULLNAME, USERNAME, PASSWORD, ROLE)
 VALUES (-1, 'Administrator', 'admin', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'ADMIN'),
-       (-2, 'User', 'user', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'USER');
+       (-2, 'User', 'user', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'USER'),
+       (-3, 'GioAdmin', 'g', '$2a$10$no1Bnc0L/Jq5WnNtRA8pOu85KJmSfgZCavocgseLLKaExr4ccXNZy', 'ADMIN'),
+       (-4, 'GioUser', 'a', '$2a$10$i0PKMsYCLqV1nldoI6uM3ut8I9NIisPMJUHcfr6RPYYfyfVoEvWE2', 'USER');
 
 
 INSERT INTO PUBLIC.BIDLIST (ASK, ASK_QUANTITY, BID, BID_LIST_ID, BID_QUANTITY, BID_LIST_DATE, CREATION_DATE,

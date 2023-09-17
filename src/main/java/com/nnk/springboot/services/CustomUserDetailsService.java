@@ -3,6 +3,7 @@ package com.nnk.springboot.services;
 import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 @Service
@@ -19,7 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     /**
-     * @param username
+     * @param username the username of the user who wishes to log in
      * @return a fully populated user record
      */
     @Override
@@ -35,15 +37,17 @@ public class CustomUserDetailsService implements UserDetailsService {
                 (
                         user.getUsername(),
                         user.getPassword(),
-                        getAuthorities()
+                        getAuthorities(username)
                 );
     }
 
     /**
      * @return role given at the user (there is no role implement for the moment)
      */
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>();
+    public Collection<? extends GrantedAuthority> getAuthorities(String username) {
+        var authority = new SimpleGrantedAuthority(userRepository.findUserByUsername(username).getRole());
+
+        return Collections.singleton(authority);
     }
 
 }

@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -38,7 +36,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                        authorize.requestMatchers(new AntPathRequestMatcher("/bidList/**")).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/curvePoint/**")).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/rating/**")).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/ruleName/**")).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/trade/**")).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -53,7 +57,7 @@ public class SecurityConfig {
 
                 ).logout(
                         logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/app-logout"))
                                 .permitAll()
                                 .logoutSuccessUrl("/home")
                 )
