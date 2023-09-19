@@ -1,11 +1,11 @@
 package com.nnk.springboot.domain;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
@@ -13,12 +13,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "bidlist")
 public class BidList implements UpdatableModel<BidList> {
-    // TODO: Map columns in data table BIDLIST with corresponding java fields
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bidListId;
 
     @NotBlank(message = "Account is mandatory")

@@ -1,8 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.services.RuleNameServiceImpl;
+import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 public class RuleNameController {
-    private final RuleNameServiceImpl ruleNameServiceimpl;
 
-    public RuleNameController(RuleNameServiceImpl ruleNameServiceimpl) {
-        this.ruleNameServiceimpl = ruleNameServiceimpl;
-    }
+    private final CrudServiceInterface<RuleName> ruleNameService;
 
     @RequestMapping("/ruleName/list")
     public String home(Model model) {
 
-        model.addAttribute("ruleNames", ruleNameServiceimpl.getAll());
+        model.addAttribute("ruleNames", ruleNameService.getAll());
 
         return "ruleName/list";
     }
@@ -38,8 +37,8 @@ public class RuleNameController {
 
         if (!result.hasErrors()) {
 
-            ruleNameServiceimpl.add(ruleName);
-            model.addAttribute("ruleNames", ruleNameServiceimpl.getAll());
+            ruleNameService.add(ruleName);
+            model.addAttribute("ruleNames", ruleNameService.getAll());
 
             return "redirect:/ruleName/list";
         }
@@ -50,7 +49,7 @@ public class RuleNameController {
     @GetMapping("/ruleName/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("ruleName", ruleNameServiceimpl.getById(id));
+        model.addAttribute("ruleName", ruleNameService.getById(id));
 
         return "ruleName/update";
     }
@@ -64,8 +63,8 @@ public class RuleNameController {
         }
 
         ruleName.setId(id);
-        ruleNameServiceimpl.update(ruleName);
-        model.addAttribute("ruleNames", ruleNameServiceimpl.getAll());
+        ruleNameService.update(ruleName);
+        model.addAttribute("ruleNames", ruleNameService.getAll());
 
         return "redirect:/ruleName/list";
     }
@@ -73,8 +72,8 @@ public class RuleNameController {
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
 
-        ruleNameServiceimpl.deleteById(id);
-        model.addAttribute("ruleNames", ruleNameServiceimpl.getAll());
+        ruleNameService.deleteById(id);
+        model.addAttribute("ruleNames", ruleNameService.getAll());
 
         return "redirect:/ruleName/list";
     }

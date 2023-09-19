@@ -1,8 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.services.TradeServiceImpl;
+import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 public class TradeController {
-    private final TradeServiceImpl tradeServiceImpl;
-
-    public TradeController(TradeServiceImpl tradeServiceImpl) {
-        this.tradeServiceImpl = tradeServiceImpl;
-    }
+    private final CrudServiceInterface<Trade> tradeService;
 
     @RequestMapping("/trade/list")
     public String home(Model model) {
 
-        model.addAttribute("trades", tradeServiceImpl.getAll());
+        model.addAttribute("trades", tradeService.getAll());
 
         return "trade/list";
     }
@@ -38,8 +36,8 @@ public class TradeController {
 
         if (!result.hasErrors()) {
 
-            tradeServiceImpl.add(trade);
-            model.addAttribute("trades", tradeServiceImpl.getAll());
+            tradeService.add(trade);
+            model.addAttribute("trades", tradeService.getAll());
 
             return "redirect:/trade/list";
         }
@@ -50,7 +48,7 @@ public class TradeController {
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("trade", tradeServiceImpl.getById(id));
+        model.addAttribute("trade", tradeService.getById(id));
 
         return "trade/update";
     }
@@ -64,8 +62,8 @@ public class TradeController {
         }
 
         trade.setTradeId(id);
-        tradeServiceImpl.update(trade);
-        model.addAttribute("trades", tradeServiceImpl.getAll());
+        tradeService.update(trade);
+        model.addAttribute("trades", tradeService.getAll());
 
         return "redirect:/trade/list";
     }
@@ -73,8 +71,8 @@ public class TradeController {
     @GetMapping("/trade/delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id, Model model) {
 
-        tradeServiceImpl.deleteById(id);
-        model.addAttribute("trades", tradeServiceImpl.getAll());
+        tradeService.deleteById(id);
+        model.addAttribute("trades", tradeService.getAll());
 
         return "redirect:/trade/list";
     }

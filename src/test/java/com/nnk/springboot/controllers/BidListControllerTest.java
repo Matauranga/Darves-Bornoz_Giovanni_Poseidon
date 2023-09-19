@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BidListControllerTest { //TODO problem with ID's + inspect andExpect
+class BidListControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

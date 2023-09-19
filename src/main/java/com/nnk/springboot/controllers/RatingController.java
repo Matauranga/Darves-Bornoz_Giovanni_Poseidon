@@ -1,8 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
-import com.nnk.springboot.services.RatingServiceImpl;
+import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 public class RatingController {
-    private final RatingServiceImpl ratingServiceImpl;
 
-    public RatingController(RatingServiceImpl ratingServiceImpl) {
-        this.ratingServiceImpl = ratingServiceImpl;
-    }
+    // todo : regarder @Qualifier
+    private final CrudServiceInterface<Rating> ratingService;
+
 
     @RequestMapping("/rating/list")
     public String home(Model model) {
 
-        model.addAttribute("ratings", ratingServiceImpl.getAll());
+        model.addAttribute("ratings", ratingService.getAll());
 
         return "rating/list";
     }
@@ -38,8 +39,8 @@ public class RatingController {
 
         if (!result.hasErrors()) {
 
-            ratingServiceImpl.add(rating);
-            model.addAttribute("ratings", ratingServiceImpl.getAll());
+            ratingService.add(rating);
+            model.addAttribute("ratings", ratingService.getAll());
 
             return "redirect:/rating/list";
         }
@@ -50,7 +51,7 @@ public class RatingController {
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("rating", ratingServiceImpl.getById(id));
+        model.addAttribute("rating", ratingService.getById(id));
 
         return "rating/update";
     }
@@ -64,8 +65,8 @@ public class RatingController {
         }
 
         rating.setId(id);
-        ratingServiceImpl.update(rating);
-        model.addAttribute("ratings", ratingServiceImpl.getAll());
+        ratingService.update(rating);
+        model.addAttribute("ratings", ratingService.getAll());
 
         return "redirect:/rating/list";
     }
@@ -73,8 +74,8 @@ public class RatingController {
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
 
-        ratingServiceImpl.deleteById(id);
-        model.addAttribute("ratings", ratingServiceImpl.getAll());
+        ratingService.deleteById(id);
+        model.addAttribute("ratings", ratingService.getAll());
 
         return "redirect:/rating/list";
     }

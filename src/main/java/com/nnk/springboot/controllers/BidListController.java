@@ -1,8 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.services.BidListServiceImpl;
+import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,17 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequiredArgsConstructor
 public class BidListController {
-    private final BidListServiceImpl bidListServiceImpl;
 
-    public BidListController(BidListServiceImpl bidListServiceImpl) {
-        this.bidListServiceImpl = bidListServiceImpl;
-    }
+    private final CrudServiceInterface<BidList> bidListService;
+
 
     @RequestMapping("/bidList/list")
     public String home(Model model) {
 
-        model.addAttribute("bidLists", bidListServiceImpl.getAll());
+        model.addAttribute("bidLists", bidListService.getAll());
 
         return "bidList/list";
     }
@@ -37,8 +37,8 @@ public class BidListController {
 
         if (!result.hasErrors()) {
 
-            bidListServiceImpl.add(bid);
-            model.addAttribute("bidLists", bidListServiceImpl.getAll());
+            bidListService.add(bid);
+            model.addAttribute("bidLists", bidListService.getAll());
 
             return "redirect:/bidList/list";
         }
@@ -49,7 +49,7 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("bidList", bidListServiceImpl.getById(id));
+        model.addAttribute("bidList", bidListService.getById(id));
 
         return "bidList/update";
     }
@@ -63,8 +63,8 @@ public class BidListController {
         }
 
         bidList.setBidListId(id);
-        bidListServiceImpl.update(bidList);
-        model.addAttribute("bidLists", bidListServiceImpl.getAll());
+        this.bidListService.update(bidList);
+        model.addAttribute("bidLists", this.bidListService.getAll());
 
         return "redirect:/bidList/list";
     }
@@ -72,8 +72,8 @@ public class BidListController {
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
-        bidListServiceImpl.deleteById(id);
-        model.addAttribute("bidLists", bidListServiceImpl.getAll());
+        bidListService.deleteById(id);
+        model.addAttribute("bidLists", bidListService.getAll());
 
         return "redirect:/bidList/list";
     }

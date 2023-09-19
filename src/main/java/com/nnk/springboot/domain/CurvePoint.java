@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
@@ -12,12 +13,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "curvepoint")
 public class CurvePoint implements UpdatableModel<CurvePoint> {
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer curveId;

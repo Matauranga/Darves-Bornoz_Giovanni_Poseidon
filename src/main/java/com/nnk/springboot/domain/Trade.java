@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
@@ -12,12 +13,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "trade")
 public class Trade implements UpdatableModel<Trade> {
-    // TODO: Map columns in data table TRADE with corresponding java fields
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer tradeId;
 
     @NotBlank(message = "Account is mandatory")

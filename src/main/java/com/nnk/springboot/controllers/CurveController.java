@@ -1,8 +1,9 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.services.CurvePointServiceImpl;
+import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,16 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequiredArgsConstructor
 public class CurveController {
-    private final CurvePointServiceImpl curvePointServiceimpl;
-
-    public CurveController(CurvePointServiceImpl curvePointServiceimpl) {
-        this.curvePointServiceimpl = curvePointServiceimpl;
-    }
+    private final CrudServiceInterface<CurvePoint> curvePointService;
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model) {
-        model.addAttribute("curvePoints", curvePointServiceimpl.getAll());
+        model.addAttribute("curvePoints", curvePointService.getAll());
         return "curvePoint/list";
     }
 
@@ -36,8 +34,8 @@ public class CurveController {
 
         if (!result.hasErrors()) {
 
-            curvePointServiceimpl.add(curvePoint);
-            model.addAttribute("curvePoints", curvePointServiceimpl.getAll());
+            curvePointService.add(curvePoint);
+            model.addAttribute("curvePoints", curvePointService.getAll());
 
             return "redirect:/curvePoint/list";
         }
@@ -48,7 +46,7 @@ public class CurveController {
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("curvePoint", curvePointServiceimpl.getById(id));
+        model.addAttribute("curvePoint", curvePointService.getById(id));
 
         return "curvePoint/update";
     }
@@ -62,8 +60,8 @@ public class CurveController {
         }
 
         curvePoint.setCurveId(id);
-        curvePointServiceimpl.update(curvePoint);
-        model.addAttribute("curvePoints", curvePointServiceimpl.getAll());
+        curvePointService.update(curvePoint);
+        model.addAttribute("curvePoints", curvePointService.getAll());
 
 
         return "redirect:/curvePoint/list";
@@ -72,8 +70,8 @@ public class CurveController {
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
 
-        curvePointServiceimpl.deleteById(id);
-        model.addAttribute("curvePoints", curvePointServiceimpl.getAll());
+        curvePointService.deleteById(id);
+        model.addAttribute("curvePoints", curvePointService.getAll());
 
         return "redirect:/curvePoint/list";
     }
