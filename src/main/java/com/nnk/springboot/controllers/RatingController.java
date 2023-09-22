@@ -20,7 +20,12 @@ public class RatingController {
     // todo : regarder @Qualifier
     private final CrudServiceInterface<Rating> ratingService;
 
-
+    /**
+     * Handler method to handle rating list request
+     *
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @RequestMapping("/rating/list")
     public String getRatingList(Model model) {
 
@@ -28,11 +33,24 @@ public class RatingController {
         return "rating/list";
     }
 
+    /**
+     * Handler method to add rating form
+     *
+     * @param rating the future rating to add
+     * @return the page where we have to redirect
+     */
     @GetMapping("/rating/add")
     public String addRatingForm(Rating rating) {
         return "rating/add";
     }
 
+    /**
+     * Handler method to add rating
+     *
+     * @param rating the rating to add
+     * @param result result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/rating/validate")
     public String addRating(@Valid Rating rating, BindingResult result) {
 
@@ -45,6 +63,13 @@ public class RatingController {
         return "rating/add";
     }
 
+    /**
+     * Handler method to update rating form
+     *
+     * @param id    the id of rating to update
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
@@ -52,6 +77,14 @@ public class RatingController {
         return "rating/update";
     }
 
+    /**
+     * Handler method to update rating
+     *
+     * @param id     the id of rating to update
+     * @param rating the rating updated
+     * @param result result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 
@@ -66,6 +99,12 @@ public class RatingController {
         return "redirect:/rating/list";
     }
 
+    /**
+     * Handler method to delete rating
+     *
+     * @param id the id of rating to delete
+     * @return the page where we have to redirect
+     */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id) {
 

@@ -12,13 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 @RequiredArgsConstructor
 public class RuleNameController {
 
     private final CrudServiceInterface<RuleName> ruleNameService;
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @RequestMapping("/ruleName/list")
     public String getRuleNameList(Model model) {
 
@@ -26,11 +31,24 @@ public class RuleNameController {
         return "ruleName/list";
     }
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param ruleName the future rule to add
+     * @return the page where we have to redirect
+     */
     @GetMapping("/ruleName/add")
-    public String addRuleNameForm(RuleName bid) {
+    public String addRuleNameForm(RuleName ruleName) {
         return "ruleName/add";
     }
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param ruleName the rule to add
+     * @param result   result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/ruleName/validate")
     public String addRuleName(@Valid RuleName ruleName, BindingResult result) {
 
@@ -43,6 +61,13 @@ public class RuleNameController {
         return "ruleName/add";
     }
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param id    the id of the rule to update
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @GetMapping("/ruleName/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
@@ -50,6 +75,14 @@ public class RuleNameController {
         return "ruleName/update";
     }
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param id       the id of the rule to update
+     * @param ruleName the rule updated
+     * @param result   result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
 
@@ -64,6 +97,12 @@ public class RuleNameController {
         return "redirect:/ruleName/list";
     }
 
+    /**
+     * Handler method to handle bid list request
+     *
+     * @param id the id of the rule to delete
+     * @return the page where we have to redirect
+     */
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id) {
 

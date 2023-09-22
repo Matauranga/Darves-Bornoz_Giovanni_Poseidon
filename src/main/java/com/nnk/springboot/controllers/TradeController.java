@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 @RequiredArgsConstructor
 public class TradeController {
     private final CrudServiceInterface<Trade> tradeService;
 
+    /**
+     * Handler method to handle trade list request
+     *
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @RequestMapping("/trade/list")
     public String getTradeList(Model model) {
 
@@ -25,11 +30,24 @@ public class TradeController {
         return "trade/list";
     }
 
+    /**
+     * Handler method to handle add trade form
+     *
+     * @param trade the future trade to add
+     * @return the page where we have to redirect
+     */
     @GetMapping("/trade/add")
-    public String addUser(Trade bid) {
+    public String addUser(Trade trade) {
         return "trade/add";
     }
 
+    /**
+     * Handler method to handle add trade
+     *
+     * @param trade  the trade to add
+     * @param result result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/trade/validate")
     public String addTrade(@Valid Trade trade, BindingResult result) {
 
@@ -42,6 +60,13 @@ public class TradeController {
         return "trade/add";
     }
 
+    /**
+     * Handler method to handle update trade form
+     *
+     * @param id    the id of trade to update
+     * @param model attribute to be passed to the front
+     * @return the page where we have to redirect
+     */
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
@@ -50,6 +75,14 @@ public class TradeController {
         return "trade/update";
     }
 
+    /**
+     * Handler method to handle update trade
+     *
+     * @param id     the id of trade to update
+     * @param trade  the trade updated
+     * @param result result of binding process
+     * @return the page where we have to redirect
+     */
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 
@@ -64,6 +97,12 @@ public class TradeController {
         return "redirect:/trade/list";
     }
 
+    /**
+     * Handler method to handle delete trade
+     *
+     * @param id the id of trade to delete
+     * @return the page where we have to redirect
+     */
     @GetMapping("/trade/delete/{id}")
     public String deleteTrade(@PathVariable("id") Integer id) {
 

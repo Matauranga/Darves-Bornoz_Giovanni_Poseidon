@@ -5,7 +5,6 @@ import com.nnk.springboot.services.CrudServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -16,6 +15,9 @@ public class LoginController {
 
     private final CrudServiceInterface<User> userService;
 
+    /**
+     * Handler method to handle login request
+     */
 //    @GetMapping("/login")
 //    public ModelAndView login() {
 //
@@ -32,6 +34,11 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * Handler method to handle ????
+     *
+     * @return the page to ???
+     */
     @GetMapping("secure/article-details")
     public ModelAndView getAllUserArticles() {
         ModelAndView mav = new ModelAndView();
@@ -40,6 +47,11 @@ public class LoginController {
         return mav;
     }
 
+    /**
+     * Handler method to handle ????
+     *
+     * @return the page to ???
+     */
     @GetMapping("error")
     public ModelAndView error() {
         ModelAndView mav = new ModelAndView();
