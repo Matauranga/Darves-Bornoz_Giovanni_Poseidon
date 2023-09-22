@@ -79,7 +79,7 @@ class CurveControllerTest {
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Update CurvePoint")))
-                .andExpect(content().string(containsString("10.0")));//todo
+                .andExpect(content().string(containsString("10.0")));
     }
 
     @DisplayName("Try to perform method post on /curvePoint/update/{id}")
