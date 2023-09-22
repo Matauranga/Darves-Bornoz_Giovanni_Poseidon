@@ -20,27 +20,25 @@ public class UserController {
     private final CrudServiceInterface<User> userService;
 
     @RequestMapping("/user/list")
-    public String home(Model model) {
+    public String getUserList(Model model) {
 
         model.addAttribute("users", userService.getAll());
-
         return "user/list";
     }
 
     @GetMapping("/user/add")
-    public String addUser(User bid) {
+    public String addUserForm(User user) {
         return "user/add";
     }
 
     @PostMapping("/user/validate")
-    public String validate(@Valid User user, BindingResult result, Model model) {
+    public String addUser(@Valid User user, BindingResult result) {
 
-        if (!result.hasErrors()) {
+        if (!result.hasErrors()) { //TODO :  a retirer
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
             userService.add(user);
-            model.addAttribute("users", userService.getAll());
 
             return "redirect:/user/list";
         }
@@ -60,9 +58,9 @@ public class UserController {
 
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
-                             BindingResult result, Model model) {
+                             BindingResult result) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { //TODO :  a retirer
             return "user/update";
         }
 
@@ -70,17 +68,14 @@ public class UserController {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setId(id);
         userService.add(user);
-        model.addAttribute("users", userService.getAll());
 
         return "redirect:/user/list";
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
+    public String deleteUser(@PathVariable("id") Integer id) {
 
         userService.deleteById(id);
-        model.addAttribute("users", userService.getAll());
-
         return "redirect:/user/list";
     }
 }

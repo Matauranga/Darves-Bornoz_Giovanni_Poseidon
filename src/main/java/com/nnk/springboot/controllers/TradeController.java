@@ -19,10 +19,9 @@ public class TradeController {
     private final CrudServiceInterface<Trade> tradeService;
 
     @RequestMapping("/trade/list")
-    public String home(Model model) {
+    public String getTradeList(Model model) {
 
         model.addAttribute("trades", tradeService.getAll());
-
         return "trade/list";
     }
 
@@ -32,13 +31,11 @@ public class TradeController {
     }
 
     @PostMapping("/trade/validate")
-    public String validate(@Valid Trade trade, BindingResult result, Model model) {
+    public String addTrade(@Valid Trade trade, BindingResult result) {
 
-        if (!result.hasErrors()) {
+        if (!result.hasErrors()) { //TODO a retirer
 
             tradeService.add(trade);
-            model.addAttribute("trades", tradeService.getAll());
-
             return "redirect:/trade/list";
         }
 
@@ -54,25 +51,23 @@ public class TradeController {
     }
 
     @PostMapping("/trade/update/{id}")
-    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { //TODO a retirer
 
             return "trade/update";
         }
 
         trade.setTradeId(id);
         tradeService.update(trade);
-        model.addAttribute("trades", tradeService.getAll());
 
         return "redirect:/trade/list";
     }
 
     @GetMapping("/trade/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model) {
+    public String deleteTrade(@PathVariable("id") Integer id) {
 
         tradeService.deleteById(id);
-        model.addAttribute("trades", tradeService.getAll());
 
         return "redirect:/trade/list";
     }

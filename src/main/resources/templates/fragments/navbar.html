@@ -11,8 +11,7 @@
             <a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
             <a href="/trade/list">Trade</a>&nbsp;|&nbsp;
             <a href="/ruleName/list">Rule</a>
-            <a sec:authorize="hasAuthority('ADMIN')">&nbsp;|&nbsp;</a>
-            <a sec:authorize="hasAuthority('ADMIN')" href="/user/list">User Management</a>
+
         </div>
         <div class="col-6 text-right">
             Logged user: <span sec:authentication="name"></span>

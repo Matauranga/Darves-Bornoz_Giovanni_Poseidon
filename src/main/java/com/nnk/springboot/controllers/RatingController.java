@@ -22,10 +22,9 @@ public class RatingController {
 
 
     @RequestMapping("/rating/list")
-    public String home(Model model) {
+    public String getRatingList(Model model) {
 
         model.addAttribute("ratings", ratingService.getAll());
-
         return "rating/list";
     }
 
@@ -35,13 +34,11 @@ public class RatingController {
     }
 
     @PostMapping("/rating/validate")
-    public String validate(@Valid Rating rating, BindingResult result, Model model) {
+    public String addRating(@Valid Rating rating, BindingResult result) {
 
-        if (!result.hasErrors()) {
+        if (!result.hasErrors()) { //TODO a retirer
 
             ratingService.add(rating);
-            model.addAttribute("ratings", ratingService.getAll());
-
             return "redirect:/rating/list";
         }
 
@@ -52,30 +49,27 @@ public class RatingController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
         model.addAttribute("rating", ratingService.getById(id));
-
         return "rating/update";
     }
 
     @PostMapping("/rating/update/{id}")
-    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result, Model model) {
+    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { //TODO a retirer
 
             return "rating/update";
         }
 
         rating.setId(id);
         ratingService.update(rating);
-        model.addAttribute("ratings", ratingService.getAll());
 
         return "redirect:/rating/list";
     }
 
     @GetMapping("/rating/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, Model model) {
+    public String deleteRating(@PathVariable("id") Integer id) {
 
         ratingService.deleteById(id);
-        model.addAttribute("ratings", ratingService.getAll());
 
         return "redirect:/rating/list";
     }

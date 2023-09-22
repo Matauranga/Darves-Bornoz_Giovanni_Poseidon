@@ -20,26 +20,23 @@ public class BidListController {
 
 
     @RequestMapping("/bidList/list")
-    public String home(Model model) {
+    public String getBidList(Model model) {
 
         model.addAttribute("bidLists", bidListService.getAll());
-
         return "bidList/list";
     }
 
     @GetMapping("/bidList/add")
-    public String addBidForm(BidList bid) {
+    public String addBidForm(BidList bidList) {
         return "bidList/add";
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
+    public String addBid(@Valid BidList bid, BindingResult result) {
 
-        if (!result.hasErrors()) {
+        if (!result.hasErrors()) { //TODO ; est utile ici ?
 
             bidListService.add(bid);
-            model.addAttribute("bidLists", bidListService.getAll());
-
             return "redirect:/bidList/list";
         }
 
@@ -50,30 +47,27 @@ public class BidListController {
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
         model.addAttribute("bidList", bidListService.getById(id));
-
         return "bidList/update";
     }
 
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
+    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { //TODO a retirer
 
             return "bidList/update";
         }
 
         bidList.setBidListId(id);
         this.bidListService.update(bidList);
-        model.addAttribute("bidLists", this.bidListService.getAll());
 
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") Integer id) {
 
         bidListService.deleteById(id);
-        model.addAttribute("bidLists", bidListService.getAll());
 
         return "redirect:/bidList/list";
     }

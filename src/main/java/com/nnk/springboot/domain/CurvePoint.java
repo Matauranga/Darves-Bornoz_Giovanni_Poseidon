@@ -32,8 +32,7 @@ public class CurvePoint implements UpdatableModel<CurvePoint> {
 
     private Timestamp creationDate;
 
-    public CurvePoint(Integer curveId, Double term, Double value) {
-        this.curveId = curveId;
+    public CurvePoint(Double term, Double value) { //TODO pk avant CurveID et pk curveID tout court
         this.term = term;
         this.value = value;
     }
