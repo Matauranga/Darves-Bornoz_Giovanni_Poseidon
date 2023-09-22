@@ -49,6 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/trade/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().permitAll()
 
@@ -69,8 +70,8 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/login")
 
                 )
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .exceptionHandling(handling -> handling.accessDeniedPage("/app/error"));
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        //.exceptionHandling(handling -> handling.accessDeniedPage("/error")); //Todo a voir avec frank
 
         return http.build();
     }

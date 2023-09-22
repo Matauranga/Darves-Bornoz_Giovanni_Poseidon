@@ -19,7 +19,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException {
+                                        Authentication authentication) throws IOException { //TODO a regarder avec Frank
 
         User person = userRepository.findUserByUsername(authentication.getName()).orElseThrow();
         String redirectURL;

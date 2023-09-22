@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     /**
-     * Handler method to handle ????
+     * Handler method to handle home request
      *
      * @param model ???
-     * @return the page to ????
+     * @return the home page
      */
     @RequestMapping({"/home", "/"})
-    public String home(Model model) {
+    public String getHome(Model model) {
         return "home";
     }
 
@@ -24,8 +24,8 @@ public class HomeController {
      * @param model ???
      * @return the page to ????
      */
-    @RequestMapping("/admin/home")
-    public String adminHome(Model model) {
+    @RequestMapping("/admin/home") //Todo : cest quoi ça ?
+    public String getAdminHome(Model model) {
         return "redirect:/bidList/list";
     }
 

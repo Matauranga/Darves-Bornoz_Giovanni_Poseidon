@@ -2,8 +2,12 @@ package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.CrudServiceInterface;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,7 +23,7 @@ public class LoginController {
      * Handler method to handle login request
      */
 //    @GetMapping("/login")
-//    public ModelAndView login() {
+//    public ModelAndView getLogin() {
 //
 //        ModelAndView mav = new ModelAndView();
 //        mav.setViewName("/login");
@@ -30,7 +34,7 @@ public class LoginController {
      * Handler method to handle login request
      */
     @GetMapping({"/login"})
-    public String login() {
+    public String getLogin() {
         return "login";
     }
 
@@ -48,16 +52,25 @@ public class LoginController {
     }
 
     /**
-     * Handler method to handle ????
+     * Handler method to handle http error
      *
-     * @return the page to ???
+     * @param request that give the error status code
+     * @return the error page
      */
-    @GetMapping("error")
-    public ModelAndView error() {
-        ModelAndView mav = new ModelAndView();
-        String errorMessage = "You are not authorized for the requested data.";
-        mav.addObject("errorMsg", errorMessage);
-        mav.setViewName("403");
-        return mav;
+    @GetMapping("/error")
+    public String handleError(HttpServletRequest request, Model model) {
+        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+
+        if (status != null) {
+            Integer statusCode = Integer.valueOf(status.toString());
+
+            if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                model.addAttribute("errorMsg", true);
+                return "403";
+            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) { //Todo : not yet used
+                return "";
+            }
+        }
+        return "error";
     }
 }
