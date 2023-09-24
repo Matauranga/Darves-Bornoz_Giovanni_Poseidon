@@ -71,7 +71,6 @@ public class SecurityConfig {
 
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
-        //.exceptionHandling(handling -> handling.accessDeniedPage("/error")); //Todo a voir avec frank
 
         return http.build();
     }

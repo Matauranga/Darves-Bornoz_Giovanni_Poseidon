@@ -7,14 +7,10 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 </head>
 <body>
-<h3 class="text-center">Access Denied Exception</h3>
-
-<div th:if="${errorMsg}">
-    <div th:text="${errorMsg}"></div>
-</div>
+<h3 class="text-center">Not Found</h3>
 
 <div class="text-center">
-    <img width="35%" height="15%" th:src="@{/403.png}" alt="avatar"/>
+    <img width="35%" height="15%" th:src="@{/404.png}" alt="avatar"/>
 </div>
 <p class="text-center">Log out or go back.</p>
 <div class="text-center">
@@ -24,4 +20,4 @@
 </div>
 
 </body>
-</html>   
+</html>
