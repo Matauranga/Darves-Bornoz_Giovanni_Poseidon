@@ -57,7 +57,7 @@ class UserControllerTest {
     @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
     void addUser() throws Exception {
         //Given an initial user
-        User user = new User("UserNameTest", "TEST", "FulleNameTest", "USER");
+        User user = new User("UserNameTest", "TEST", "FullNameTest", "USER");
 
         //When we initiate the request
         mockMvc.perform(post("/user/validate")
