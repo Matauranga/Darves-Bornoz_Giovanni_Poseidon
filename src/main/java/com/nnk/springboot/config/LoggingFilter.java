@@ -12,7 +12,6 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 @Component
 @Log4j2
@@ -25,29 +24,10 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(requestWrapper, responseWrapper);
 
-
-        log.info("STARTING PROCESSING : METHOD={}; REQUEST_URI={}; PARAMETERS={}; ", request.getMethod(), request.getRequestURI(), getParameters(request));
+        log.info("STARTING PROCESSING : METHOD={}; REQUEST_URI={};", request.getMethod(), request.getRequestURI());
         log.info("FINISHED PROCESSING : RESPONSE CODE={}; ", response.getStatus());
 
         responseWrapper.copyBodyToResponse();
-    }
-
-    private String getParameters(final HttpServletRequest request) {
-        final StringBuilder posted = new StringBuilder();
-        final Enumeration<?> e = request.getParameterNames();
-        if (e != null) {
-            posted.append("?");
-            while (e.hasMoreElements()) {
-                if (posted.length() > 1) {
-                    posted.append("&");
-                }
-                final String curr = (String) e.nextElement();
-                posted.append(curr)
-                        .append("=")
-                        .append(request.getParameter(curr));
-            }
-        }
-        return posted.toString();
     }
 
 }
