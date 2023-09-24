@@ -77,7 +77,7 @@ class LoginSuccessHandlerTest {
     void onAuthenticationSuccessRoleNotFound() throws IOException {
         //Given a user
         User user = new User("UserNameTest", "TEST", "FullNameTest", "");
-        String redirectURL = "/error";
+        String redirectURL = "/403";
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         //When we try to redirect correctly

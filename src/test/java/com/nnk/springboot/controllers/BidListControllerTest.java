@@ -67,6 +67,22 @@ class BidListControllerTest {
                 .andExpect(status().isFound());
     }
 
+    @DisplayName("Try to perform method post on /bidList/validate but have error")
+    @Test
+    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    void postAddBidValidateError() throws Exception {
+        //Given an initial BidList
+        BidList bid = new BidList("", "Type Test", 10d);
+
+        //When we initiate the request
+        mockMvc.perform(post("/bidList/validate")
+                        .flashAttr("bidList", bid))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
+    }
+
     @DisplayName("Try to perform method get on /bidList/update/{id}")
     @Test
     @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
@@ -96,6 +112,22 @@ class BidListControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isFound());
+    }
+
+    @DisplayName("Try to perform method post on /bidList/update/{id} but have error")
+    @Test
+    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    void updateBidError() throws Exception {
+        //Given an BidList updated
+        BidList bidUpdated = new BidList("", "", 0d);
+
+        //When we initiate the request
+        mockMvc.perform(post("/bidList/update/3")
+                        .flashAttr("bidList", bidUpdated))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method get on /bidList/delete/{id}")

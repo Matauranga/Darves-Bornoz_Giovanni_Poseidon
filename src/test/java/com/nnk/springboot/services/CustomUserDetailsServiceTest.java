@@ -42,10 +42,10 @@ class CustomUserDetailsServiceTest {
         verify(userRepository, times(2)).findUserByUsername(any());
         assertThat(response.getUsername()).isEqualTo(user.getUsername());
         assertThat(response.getPassword()).isEqualTo(user.getPassword());
-        assertThat(response.getAuthorities().toString()).isEqualTo("[" + user.getRole() + "]");//TODO :Expected :"USER" --> Actual :"[USER]"
+        assertThat(response.getAuthorities().toString()).isEqualTo("[" + user.getRole() + "]");
     }
 
-    @DisplayName("Try to load a user connected")//TODO : mock getAuthorities
+    @DisplayName("Try to load a user connected")//TODO : mock customUserDetailsService.getAuthorities(username)
     @Test
     @WithUserDetails
     void loadUserByUsername() {

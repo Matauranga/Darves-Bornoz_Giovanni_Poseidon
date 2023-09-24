@@ -52,7 +52,7 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String addBid(@Valid BidList bid, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO ; est utile ici ?
+        if (!result.hasErrors()) {
 
             bidListService.add(bid);
             return "redirect:/bidList/list";
@@ -86,7 +86,7 @@ public class BidListController {
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result) {
 
-        if (result.hasErrors()) { //TODO a retirer
+        if (result.hasErrors()) {
 
             return "bidList/update";
         }
