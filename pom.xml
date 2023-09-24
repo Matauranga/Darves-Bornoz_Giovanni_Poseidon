@@ -104,6 +104,12 @@
             <version>0.8.10</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+
         <!-- Fin ajout !-->
 
     </dependencies>

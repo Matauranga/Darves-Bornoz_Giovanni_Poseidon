@@ -1,5 +1,6 @@
 package com.nnk.springboot.domain;
 
+import com.nnk.springboot.PasswordValidator.ValidPassword;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class User implements UpdatableModel<User> {
     @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @NotBlank(message = "Password is mandatory")
+    @ValidPassword
     private String password;
 
     @NotBlank(message = "FullName is mandatory")

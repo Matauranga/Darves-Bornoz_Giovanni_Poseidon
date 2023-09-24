@@ -57,7 +57,7 @@ class UserControllerTest {
     @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
     void addUser() throws Exception {
         //Given an initial user
-        User user = new User("UserNameTest", "TEST", "FullNameTest", "USER");
+        User user = new User("UserNameTest", "Test123!", "FullNameTest", "USER");
 
         //When we initiate the request
         mockMvc.perform(post("/user/validate")
@@ -67,6 +67,23 @@ class UserControllerTest {
                 //Then we verify is all works correctly
                 .andExpect(status().isFound());
     }
+
+    @DisplayName("Try to perform method post on /user/validate with password rules not respected")
+    @Test
+    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    void addUserWithWrongPassword() throws Exception {
+        //Given an initial user
+        User user = new User("UserNameTest", "test!", "FullNameTest", "USER");
+
+        //When we initiate the request
+        mockMvc.perform(post("/user/validate")
+                        .flashAttr("user", user))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
+    }
+
 
     @DisplayName("Try to perform method get on /user/update/{id}")
     @Test
@@ -88,7 +105,7 @@ class UserControllerTest {
     @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
     void updateUser() throws Exception {
         //Given a user updated
-        User userUpdated = new User("Test", "Test", "Test", "ADMIN"); //TODO : check note mdp
+        User userUpdated = new User("Test", "Test123!", "Test", "ADMIN"); //TODO : check note mdp
 
         //When we initiate the request
         mockMvc.perform(post("/user/update/3")
@@ -97,6 +114,22 @@ class UserControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isFound());
+    }
+
+    @DisplayName("Try to perform method post on /user/update/{id} with password rules not respected")
+    @Test
+    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    void updateUserWrongPassword() throws Exception {
+        //Given a user updated
+        User userUpdated = new User("Test", "Test", "Test", "ADMIN");
+
+        //When we initiate the request
+        mockMvc.perform(post("/user/update/3")
+                        .flashAttr("user", userUpdated))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method get on /user/delete/{id}")
