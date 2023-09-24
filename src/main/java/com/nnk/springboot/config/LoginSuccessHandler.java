@@ -35,7 +35,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             redirectURL = "/bidList/list";
 
         } else {
-            redirectURL = "/error";
+            redirectURL = "/403";
         }
 
         response.sendRedirect(redirectURL);

@@ -49,7 +49,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/trade/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                                //.requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().permitAll()
 

@@ -86,7 +86,7 @@ public class RuleNameController {
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
 
-        if (result.hasErrors()) {
+        if (result.hasErrors()) { //TODO a retirer
 
             return "ruleName/update";
         }

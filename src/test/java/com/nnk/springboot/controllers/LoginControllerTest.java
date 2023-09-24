@@ -38,10 +38,10 @@ class LoginControllerTest {
     void getAllUserArticles() {
     }
 
-    @DisplayName("")
+    @DisplayName("error 403")//Todo a voir avec frank
     @Test
     @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
-    void error() throws Exception { //Todo a voir avec frank
+    void error() throws Exception {
         //Given
 
         //When we initiate the request
@@ -49,6 +49,5 @@ class LoginControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isForbidden());
-        //  .andExpect(content().string(containsString("Access Denied Exception")));
     }
 }
