@@ -46,7 +46,7 @@ public abstract class AbstractCrudService<M extends UpdatableModel<M>> implement
 
         final M updatedEntity = this.repository
                 .findById(model.getId())
-                .orElseThrow(() -> new NotFoundException(model.getClass().getName() + " not found."))
+                .orElseThrow(() -> new NotFoundException(model.getClass().getSimpleName() + " not found."))
                 .update(model);
 
         repository.save(updatedEntity);

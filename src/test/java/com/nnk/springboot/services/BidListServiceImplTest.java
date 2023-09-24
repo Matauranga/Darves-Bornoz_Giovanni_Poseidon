@@ -21,7 +21,6 @@ public class BidListServiceImplTest {
 
     @InjectMocks
     BidListServiceImpl bidListService;
-
     @Mock
     BidListRepository bidListRepository;
 
@@ -39,7 +38,7 @@ public class BidListServiceImplTest {
         verify(bidListRepository, times(1)).save(any());
     }
 
-    @DisplayName("Try to get a bid by id")
+    @DisplayName("Try to get a bid by Id")
     @Test
     void getById() {
         //Given an initial Bid
@@ -52,7 +51,8 @@ public class BidListServiceImplTest {
 
         //Then we verify if this have works correctly
         verify(bidListRepository, times(1)).findById(any());
-        assertThat(response).isNotNull(); //todo impossible d utilser du empty ou contains
+        //assertThat(response).isNotNull(); //todo impossible d utilser du empty ou contains pourquoi ?
+        assertThat(response).isEqualTo(bidToFind);
     }
 
     @DisplayName("Try to get a bid by Id but throw not found exception")
@@ -63,10 +63,11 @@ public class BidListServiceImplTest {
 
         //When we try to get the bid
         when(bidListRepository.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> bidListService.getById(bidId));
+        String errMsg = assertThrows(NotFoundException.class, () -> bidListService.getById(bidId)).getMessage();
 
         //Then we verify if this have works correctly
         verify(bidListRepository, times(1)).findById(any());
+        assertThat(errMsg).contains("Entity not found.");
     }
 
     @DisplayName("Try get all bid")
@@ -75,7 +76,7 @@ public class BidListServiceImplTest {
         //Given an initial list of bid
         List<BidList> bidLists = List.of(new BidList(), new BidList());
 
-        //When we try to get all
+        //When we try to get all bids
         when(bidListRepository.findAll()).thenReturn(bidLists);
         List<BidList> response = bidListService.getAll();
 
@@ -87,10 +88,10 @@ public class BidListServiceImplTest {
     @DisplayName("Try to delete a bid")
     @Test
     void deleteById() {//Todo a voir avec frank
-        //Given a
+        //Given a initial bid
         BidList bidToDelete = new BidList("Account To Delete Test", "Type To Delete Test", 1d);
 
-        //When we
+        //When we try to delete the bid
         bidListService.deleteById(bidToDelete.getBidListId());
 
         //Then we verify if this have works correctly
@@ -100,7 +101,7 @@ public class BidListServiceImplTest {
     @DisplayName("Try to update a bid")
     @Test
     void update() {
-        //Given an initial bid and his update
+        //Given an initial bid and an update
         BidList initialBid = new BidList("Account Initial Test", "Type Initial Test", 1d);
         BidList updatedBid = new BidList("Account Updated Test", "Type Updated Test", 1d);
         updatedBid.setBidListId(initialBid.getBidListId());
@@ -123,11 +124,12 @@ public class BidListServiceImplTest {
 
         //When we try to update
         when(bidListRepository.findById(any())).thenReturn(Optional.empty());
-        assertThrows(NotFoundException.class, () -> bidListService.update(updatedBid));
+        String errMsg = assertThrows(NotFoundException.class, () -> bidListService.update(updatedBid)).getMessage();
 
         //Then we verify if this have works correctly
         verify(bidListRepository, times(1)).findById(any());
         verify(bidListRepository, times(0)).save(any());
+        assertThat(errMsg).contains("BidList not found.");
     }
 
 }
