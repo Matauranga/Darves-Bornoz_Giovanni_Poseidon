@@ -30,11 +30,22 @@ public class SecurityConfig {
         this.loginSuccessHandler = loginSuccessHandler;
     }
 
+    /**
+     * Method define the Password Encoder
+     *
+     * @return The Bcrypt process to encode
+     */
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Custom security filter  //TODO
+     *
+     * @param http
+     * @return
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -56,10 +67,10 @@ public class SecurityConfig {
                 )
                 .formLogin(
                         form -> form
-                                .loginPage("/login")
+                                .loginPage("/app/login")
                                 .usernameParameter("user")
                                 .passwordParameter("password")
-                                .loginProcessingUrl("/login")
+                                .loginProcessingUrl("/app/login")
                                 .successHandler(loginSuccessHandler)
                                 .permitAll()
 
@@ -67,7 +78,7 @@ public class SecurityConfig {
                         logout -> logout
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/app-logout"))
                                 .permitAll()
-                                .logoutSuccessUrl("/login")
+                                .logoutSuccessUrl("/app/login")
 
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
@@ -75,6 +86,11 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /**
+     * Method cest ce qui permet l'authentication par BDD ? //TODO frank
+     *
+     * @param auth
+     */
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth

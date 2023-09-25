@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-@Slf4j //todo pk ?
+@Slf4j
 public abstract class AbstractCrudService<M extends UpdatableModel<M>> implements CrudServiceInterface<M> {
 
     protected final JpaRepository<M, Integer> repository;

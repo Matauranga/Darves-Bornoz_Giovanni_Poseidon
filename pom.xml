@@ -67,7 +67,7 @@
             <scope>runtime</scope> <!-- Should be "test", revert later -->
         </dependency>
 
-        <!--Ajout person !-->
+        <!--Ajout perso !-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -122,12 +122,19 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!--Ajout person !-->
+            <!--Ajout perso !-->
 
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.10</version>
+
+                <configuration>
+                    <excludes>
+                        <exclude>**/domain/**</exclude>
+                    </excludes>
+                </configuration>
+
                 <executions>
                     <execution>
                         <goals>

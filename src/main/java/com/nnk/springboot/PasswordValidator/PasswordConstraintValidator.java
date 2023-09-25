@@ -13,6 +13,13 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
     public void initialize(ValidPassword arg0) {
     }
 
+    /**
+     * TODO : a faire
+     *
+     * @param password
+     * @param context
+     * @return
+     */
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         PasswordValidator validator = new PasswordValidator(Arrays.asList(

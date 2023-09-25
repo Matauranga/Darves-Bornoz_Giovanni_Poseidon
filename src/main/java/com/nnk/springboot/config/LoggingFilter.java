@@ -17,6 +17,13 @@ import java.io.IOException;
 @Log4j2
 public class LoggingFilter extends OncePerRequestFilter {
 
+    /**
+     * Method using a custom filter to capture the payload of the server request and response //TODO franck "payload"
+     *
+     * @param request     information in the request send
+     * @param response    information returned by the server
+     * @param filterChain the filter
+     */
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);

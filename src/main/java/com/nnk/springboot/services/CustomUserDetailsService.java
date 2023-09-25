@@ -22,6 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     /**
+     * Method to returned user details
+     *
      * @param username the username of the user who wishes to log in
      * @return a fully populated user record
      */
@@ -39,6 +41,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     /**
+     * Method to get the authority of a user
+     *
      * @return role given at the user (there is no role implement for the moment)
      */
     public Collection<? extends GrantedAuthority> getAuthorities(String username) {

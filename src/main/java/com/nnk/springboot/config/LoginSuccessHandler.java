@@ -20,6 +20,13 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
         this.userRepository = userRepository;
     }
 
+    /**
+     * Method to redirect the user to the correct "home page" based on their authority
+     *
+     * @param request        information in the request send
+     * @param response       information returned by the server
+     * @param authentication information about the connected person
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException { //TODO à regarder avec Frank
