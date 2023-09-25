@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 @Setter
 @Entity
 @ToString
-@Table(name = "bidlist")
-public class BidList implements UpdatableModel<BidList> {
+@Table(name = "bid")
+public class Bid implements UpdatableModel<Bid> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,13 +65,13 @@ public class BidList implements UpdatableModel<BidList> {
 
     private String side;
 
-    public BidList(String account, String type, Double bidQuantity) {
+    public Bid(String account, String type, Double bidQuantity) {
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;
     }
 
-    public BidList update(BidList model) {
+    public Bid update(Bid model) {
 
         account = model.getAccount();
         type = model.getType();

@@ -20,13 +20,13 @@ class LoginControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @DisplayName("Try to perform method get on /login")
+    @DisplayName("Try to perform method get on /app/login")
     @Test
     void getLogin() throws Exception {
         //Given
 
         //When we initiate the request
-        mockMvc.perform(get("/login"))
+        mockMvc.perform(get("/app/login"))
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
@@ -45,7 +45,7 @@ class LoginControllerTest {
         //Given
 
         //When we initiate the request
-        mockMvc.perform(get("/bidList/list"))
+        mockMvc.perform(get("/bid/list"))
 
                 //Then we verify is all works correctly
                 .andExpect(status().isForbidden());

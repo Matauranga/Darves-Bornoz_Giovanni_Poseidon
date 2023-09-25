@@ -7,9 +7,9 @@ VALUES ('Administrator', 'admin', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.
        ('adminForTest ', 'adminForTest ', '$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW', 'ADMIN');
 
 
-INSERT INTO PUBLIC.BIDLIST (ASK, ASK_QUANTITY, BID, BID_QUANTITY, BID_LIST_DATE, CREATION_DATE,
-                            REVISION_DATE, ACCOUNT, BENCHMARK, BOOK, COMMENTARY, CREATION_NAME, DEAL_NAME, DEAL_TYPE,
-                            REVISION_NAME, SECURITY, SIDE, SOURCE_LIST_ID, STATUS, TRADER, TYPE)
+INSERT INTO PUBLIC.BID (ASK, ASK_QUANTITY, BID, BID_QUANTITY, BID_LIST_DATE, CREATION_DATE,
+                        REVISION_DATE, ACCOUNT, BENCHMARK, BOOK, COMMENTARY, CREATION_NAME, DEAL_NAME, DEAL_TYPE,
+                        REVISION_NAME, SECURITY, SIDE, SOURCE_LIST_ID, STATUS, TRADER, TYPE)
 VALUES (null, null, null, 1, null, null, null, 'Test Account A', null, null, null, null, null, null, null, null,
         null, null, null, null, 'Test Type A'),
        (null, null, null, 2, null, null, null, 'Test Account B', null, null, null, null, null, null, null, null,

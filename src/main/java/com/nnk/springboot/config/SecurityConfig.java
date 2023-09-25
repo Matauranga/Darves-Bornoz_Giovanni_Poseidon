@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> //TODO a revoir avant de soumettre
                         authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/bidList/**")).hasAnyAuthority("USER")
+                                .requestMatchers(new AntPathRequestMatcher("/bid/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/curvePoint/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/rating/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/ruleName/**")).hasAnyAuthority("USER")

@@ -39,7 +39,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
             redirectURL = "/user/list";
 
         } else if (user.getRole().contains("USER")) {
-            redirectURL = "/bidList/list";
+            redirectURL = "/bid/list";
 
         } else {
             redirectURL = "/403";

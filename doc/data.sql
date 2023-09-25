@@ -1,4 +1,4 @@
-CREATE TABLE bidList
+CREATE TABLE bid
 (
     bidListId    tinyint(4) NOT NULL AUTO_INCREMENT,
     account      VARCHAR(30) NOT NULL,

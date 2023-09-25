@@ -26,7 +26,7 @@ public class HomeController {
      */
     @RequestMapping("/admin/home") //Todo : cest quoi ça ?
     public String getAdminHome(Model model) {
-        return "redirect:/bidList/list";
+        return "redirect:/bid/list";
     }
 
 

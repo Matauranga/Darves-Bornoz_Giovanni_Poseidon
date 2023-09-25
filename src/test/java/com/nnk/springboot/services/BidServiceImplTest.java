@@ -1,8 +1,8 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.exceptions.NotFoundException;
-import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.repositories.BidRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,40 +17,40 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-public class BidListServiceImplTest {
+public class BidServiceImplTest {
 
     @InjectMocks
-    BidListServiceImpl bidListService;
+    BidServiceImpl bidService;
     @Mock
-    BidListRepository bidListRepository;
+    BidRepository bidRepository;
 
     @DisplayName("Try to add a bid")
     @Test
     void add() {
         //Given a bid to add
-        BidList bid = new BidList("Account Test", "Type Test", 100d);
+        Bid bid = new Bid("Account Test", "Type Test", 100d);
 
         //When we add the bid
-        when(bidListRepository.save(any())).thenReturn(bid);
-        bidListService.add(bid);
+        when(bidRepository.save(any())).thenReturn(bid);
+        bidService.add(bid);
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).save(any());
+        verify(bidRepository, times(1)).save(any());
     }
 
     @DisplayName("Try to get a bid by Id")
     @Test
     void getById() {
         //Given an initial Bid
-        BidList bidToFind = new BidList("Account Test", "Type Test", 100d);
+        Bid bidToFind = new Bid("Account Test", "Type Test", 100d);
         Integer bidId = bidToFind.getBidListId();
 
         //When we try to get the bid
-        when(bidListRepository.findById(any())).thenReturn(Optional.of(bidToFind));
-        BidList response = bidListService.getById(bidId);
+        when(bidRepository.findById(any())).thenReturn(Optional.of(bidToFind));
+        Bid response = bidService.getById(bidId);
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).findById(any());
+        verify(bidRepository, times(1)).findById(any());
         //assertThat(response).isNotNull(); //todo impossible d utilser du empty ou contains pourquoi ?
         assertThat(response).isEqualTo(bidToFind);
     }
@@ -62,11 +62,11 @@ public class BidListServiceImplTest {
         Integer bidId = 0;
 
         //When we try to get the bid
-        when(bidListRepository.findById(any())).thenReturn(Optional.empty());
-        String errMsg = assertThrows(NotFoundException.class, () -> bidListService.getById(bidId)).getMessage();
+        when(bidRepository.findById(any())).thenReturn(Optional.empty());
+        String errMsg = assertThrows(NotFoundException.class, () -> bidService.getById(bidId)).getMessage();
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).findById(any());
+        verify(bidRepository, times(1)).findById(any());
         assertThat(errMsg).contains("Entity not found.");
     }
 
@@ -74,45 +74,45 @@ public class BidListServiceImplTest {
     @Test
     void getAll() {
         //Given an initial list of bid
-        List<BidList> bidLists = List.of(new BidList(), new BidList());
+        List<Bid> bids = List.of(new Bid(), new Bid());
 
         //When we try to get all bids
-        when(bidListRepository.findAll()).thenReturn(bidLists);
-        List<BidList> response = bidListService.getAll();
+        when(bidRepository.findAll()).thenReturn(bids);
+        List<Bid> response = bidService.getAll();
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).findAll();
-        assertThat(response).isNotEmpty().containsAll(bidLists);
+        verify(bidRepository, times(1)).findAll();
+        assertThat(response).isNotEmpty().containsAll(bids);
     }
 
     @DisplayName("Try to delete a bid")
     @Test
     void deleteById() {//Todo a voir avec frank
         //Given a initial bid
-        BidList bidToDelete = new BidList("Account To Delete Test", "Type To Delete Test", 1d);
+        Bid bidToDelete = new Bid("Account To Delete Test", "Type To Delete Test", 1d);
 
         //When we try to delete the bid
-        bidListService.deleteById(bidToDelete.getBidListId());
+        bidService.deleteById(bidToDelete.getBidListId());
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).deleteById(any());
+        verify(bidRepository, times(1)).deleteById(any());
     }
 
     @DisplayName("Try to update a bid")
     @Test
     void update() {
         //Given an initial bid and an update
-        BidList initialBid = new BidList("Account Initial Test", "Type Initial Test", 1d);
-        BidList updatedBid = new BidList("Account Updated Test", "Type Updated Test", 1d);
+        Bid initialBid = new Bid("Account Initial Test", "Type Initial Test", 1d);
+        Bid updatedBid = new Bid("Account Updated Test", "Type Updated Test", 1d);
         updatedBid.setBidListId(initialBid.getBidListId());
 
         //When we try to update the bid
-        when(bidListRepository.findById(any())).thenReturn(Optional.of(initialBid));
-        bidListService.update(updatedBid);
+        when(bidRepository.findById(any())).thenReturn(Optional.of(initialBid));
+        bidService.update(updatedBid);
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).findById(any());
-        verify(bidListRepository, times(1)).save(any());
+        verify(bidRepository, times(1)).findById(any());
+        verify(bidRepository, times(1)).save(any());
         assertThat(initialBid.getAccount()).isEqualTo(updatedBid.getAccount());
     }
 
@@ -120,16 +120,16 @@ public class BidListServiceImplTest {
     @Test
     void updateEntityNotFound() {
         //Given an update bid
-        BidList updatedBid = new BidList();
+        Bid updatedBid = new Bid();
 
         //When we try to update
-        when(bidListRepository.findById(any())).thenReturn(Optional.empty());
-        String errMsg = assertThrows(NotFoundException.class, () -> bidListService.update(updatedBid)).getMessage();
+        when(bidRepository.findById(any())).thenReturn(Optional.empty());
+        String errMsg = assertThrows(NotFoundException.class, () -> bidService.update(updatedBid)).getMessage();
 
         //Then we verify if this have works correctly
-        verify(bidListRepository, times(1)).findById(any());
-        verify(bidListRepository, times(0)).save(any());
-        assertThat(errMsg).contains("BidList not found.");
+        verify(bidRepository, times(1)).findById(any());
+        verify(bidRepository, times(0)).save(any());
+        assertThat(errMsg).contains("Bid not found.");
     }
 
 }

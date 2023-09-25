@@ -41,7 +41,7 @@ class LoginSuccessHandlerTest {
     void onAuthenticationSuccessUser() throws IOException {
         //Given a user
         User user = new User("UserNameTest", "TEST", "FullNameTest", "USER");
-        String redirectURL = "/bidList/list";
+        String redirectURL = "/bid/list";
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         //When we try to redirect correctly

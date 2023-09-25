@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class BidListController {
+public class BidController {
 
-    private final CrudServiceInterface<BidList> bidListService;
+    private final CrudServiceInterface<Bid> bidService;
 
     /**
      * Handler method to handle bid list request
@@ -24,22 +24,22 @@ public class BidListController {
      * @param model attribute to be passed to the front
      * @return the page where we have to redirect
      */
-    @RequestMapping("/bidList/list")
+    @RequestMapping("/bid/list")
     public String getBidList(Model model) {
 
-        model.addAttribute("bidLists", bidListService.getAll());
-        return "bidList/list";
+        model.addAttribute("bidLists", bidService.getAll());
+        return "bid/list";
     }
 
     /**
      * Handler method to handle add bid form
      *
-     * @param bidList the future bid to add
+     * @param bid the future bid to add
      * @return the page where we have to redirect
      */
-    @GetMapping("/bidList/add")
-    public String addBidForm(BidList bidList) {
-        return "bidList/add";
+    @GetMapping("/bid/add")
+    public String addBidForm(Bid bid) {
+        return "bid/add";
     }
 
     /**
@@ -49,16 +49,16 @@ public class BidListController {
      * @param result result of binding process
      * @return the page where we have to redirect
      */
-    @PostMapping("/bidList/validate")
-    public String addBid(@Valid BidList bid, BindingResult result) {
+    @PostMapping("/bid/validate")
+    public String addBid(@Valid Bid bid, BindingResult result) {
 
         if (!result.hasErrors()) {
 
-            bidListService.add(bid);
-            return "redirect:/bidList/list";
+            bidService.add(bid);
+            return "redirect:/bid/list";
         }
 
-        return "bidList/add";
+        return "bid/add";
     }
 
     /**
@@ -68,33 +68,33 @@ public class BidListController {
      * @param model attribute to be passed to the front
      * @return the page where we have to redirect
      */
-    @GetMapping("/bidList/update/{id}")
+    @GetMapping("/bid/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("bidList", bidListService.getById(id));
-        return "bidList/update";
+        model.addAttribute("bid", bidService.getById(id));
+        return "bid/update";
     }
 
     /**
      * Handler method to update bid
      *
-     * @param id      the id of bid to update
-     * @param bidList the bid updated
-     * @param result  result of binding process
+     * @param id     the id of bid to update
+     * @param bid    the bid updated
+     * @param result result of binding process
      * @return the page where we have to redirect
      */
-    @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result) {
+    @PostMapping("/bid/update/{id}")
+    public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid, BindingResult result) {
 
         if (result.hasErrors()) {
 
-            return "bidList/update";
+            return "bid/update";
         }
 
-        bidList.setBidListId(id);
-        this.bidListService.update(bidList);
+        bid.setBidListId(id);
+        this.bidService.update(bid);
 
-        return "redirect:/bidList/list";
+        return "redirect:/bid/list";
     }
 
     /**
@@ -103,11 +103,11 @@ public class BidListController {
      * @param id the id of bid to delete
      * @return the page where we have to redirect
      */
-    @GetMapping("/bidList/delete/{id}")
+    @GetMapping("/bid/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id) {
 
-        bidListService.deleteById(id);
+        bidService.deleteById(id);
 
-        return "redirect:/bidList/list";
+        return "redirect:/bid/list";
     }
 }
