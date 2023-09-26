@@ -53,7 +53,7 @@ public class UserController {
     @PostMapping("/user/validate")
     public String addUser(@Valid User user, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO :  a retirer
+        if (!result.hasErrors()) {
 
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
@@ -94,7 +94,7 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result) {
 
-        if (result.hasErrors()) { //TODO :  a retirer
+        if (result.hasErrors()) {
             return "user/update";
         }
 

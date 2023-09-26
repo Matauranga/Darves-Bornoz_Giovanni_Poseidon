@@ -27,7 +27,7 @@ public class BidController {
     @RequestMapping("/bid/list")
     public String getBidList(Model model) {
 
-        model.addAttribute("bidLists", bidService.getAll());
+        model.addAttribute("bidList", bidService.getAll());
         return "bid/list";
     }
 
