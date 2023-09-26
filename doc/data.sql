@@ -76,7 +76,7 @@ CREATE TABLE rating
     PRIMARY KEY (Id)
 );
 
-CREATE TABLE ruleName
+CREATE TABLE rule
 (
     Id          tinyint(4) NOT NULL AUTO_INCREMENT,
     name        VARCHAR(125),

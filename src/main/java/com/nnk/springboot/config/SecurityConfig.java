@@ -56,7 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/bid/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/curvePoint/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/rating/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/ruleName/**")).hasAnyAuthority("USER")
+                                .requestMatchers(new AntPathRequestMatcher("/rule/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/trade/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()

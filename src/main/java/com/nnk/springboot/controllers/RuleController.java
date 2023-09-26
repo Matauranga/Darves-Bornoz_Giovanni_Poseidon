@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.domain.Rule;
 import com.nnk.springboot.services.CrudServiceInterface;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class RuleNameController {
+public class RuleController {
 
-    private final CrudServiceInterface<RuleName> ruleNameService;
+    private final CrudServiceInterface<Rule> ruleService;
 
     /**
      * Handler method to handle bid list request
@@ -24,41 +24,41 @@ public class RuleNameController {
      * @param model attribute to be passed to the front
      * @return the page where we have to redirect
      */
-    @RequestMapping("/ruleName/list")
-    public String getRuleNameList(Model model) {
+    @RequestMapping("/rule/list")
+    public String getRuleList(Model model) {
 
-        model.addAttribute("ruleNames", ruleNameService.getAll());
-        return "ruleName/list";
+        model.addAttribute("ruleList", ruleService.getAll());
+        return "rule/list";
     }
 
     /**
      * Handler method to handle bid list request
      *
-     * @param ruleName the future rule to add
+     * @param rule the future rule to add
      * @return the page where we have to redirect
      */
-    @GetMapping("/ruleName/add")
-    public String addRuleNameForm(RuleName ruleName) {
-        return "ruleName/add";
+    @GetMapping("/rule/add")
+    public String addRuleForm(Rule rule) {
+        return "rule/add";
     }
 
     /**
      * Handler method to handle bid list request
      *
-     * @param ruleName the rule to add
-     * @param result   result of binding process
+     * @param rule   the rule to add
+     * @param result result of binding process
      * @return the page where we have to redirect
      */
-    @PostMapping("/ruleName/validate")
-    public String addRuleName(@Valid RuleName ruleName, BindingResult result) {
+    @PostMapping("/rule/validate")
+    public String addRule(@Valid Rule rule, BindingResult result) {
 
         if (!result.hasErrors()) { //TODO a retirer
 
-            ruleNameService.add(ruleName);
-            return "redirect:/ruleName/list";
+            ruleService.add(rule);
+            return "redirect:/rule/list";
         }
 
-        return "ruleName/add";
+        return "rule/add";
     }
 
     /**
@@ -68,33 +68,33 @@ public class RuleNameController {
      * @param model attribute to be passed to the front
      * @return the page where we have to redirect
      */
-    @GetMapping("/ruleName/update/{id}")
+    @GetMapping("/rule/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
 
-        model.addAttribute("ruleName", ruleNameService.getById(id));
-        return "ruleName/update";
+        model.addAttribute("rule", ruleService.getById(id));
+        return "rule/update";
     }
 
     /**
      * Handler method to handle bid list request
      *
-     * @param id       the id of the rule to update
-     * @param ruleName the rule updated
-     * @param result   result of binding process
+     * @param id     the id of the rule to update
+     * @param rule   the rule updated
+     * @param result result of binding process
      * @return the page where we have to redirect
      */
-    @PostMapping("/ruleName/update/{id}")
-    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
+    @PostMapping("/rule/update/{id}")
+    public String updateRule(@PathVariable("id") Integer id, @Valid Rule rule, BindingResult result) {
 
         if (result.hasErrors()) { //TODO a retirer
 
-            return "ruleName/update";
+            return "rule/update";
         }
 
-        ruleName.setId(id);
-        ruleNameService.update(ruleName);
+        rule.setId(id);
+        ruleService.update(rule);
 
-        return "redirect:/ruleName/list";
+        return "redirect:/rule/list";
     }
 
     /**
@@ -103,11 +103,11 @@ public class RuleNameController {
      * @param id the id of the rule to delete
      * @return the page where we have to redirect
      */
-    @GetMapping("/ruleName/delete/{id}")
+    @GetMapping("/rule/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id) {
 
-        ruleNameService.deleteById(id);
+        ruleService.deleteById(id);
 
-        return "redirect:/ruleName/list";
+        return "redirect:/rule/list";
     }
 }

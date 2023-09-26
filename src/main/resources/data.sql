@@ -33,7 +33,7 @@ VALUES (1, '1', '1', '1'),
        (5, '5', '5', '5');
 
 
-INSERT INTO PUBLIC.RULENAME (DESCRIPTION, JSON, NAME, SQL_PART, SQL_STR, TEMPLATE)
+INSERT INTO PUBLIC.RULE (DESCRIPTION, JSON, NAME, SQL_PART, SQL_STR, TEMPLATE)
 VALUES ('Test Description A', 'Test Json A', 'Test Name A', 'Test SqlPart A', 'Test SqlStr A', 'Test Templates A'),
        ('Test Description B', 'Test Json B', 'Test Name B', 'Test SqlPart B', 'Test SqlStr B', 'Test Templates B'),
        ('Test Description C', 'Test Json C', 'Test Name C', 'Test SqlPart C', 'Test SqlStr C', 'Test Templates C'),

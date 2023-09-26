@@ -11,8 +11,8 @@ import lombok.ToString;
 @Setter
 @Entity
 @ToString
-@Table(name = "rulename")
-public class RuleName implements UpdatableModel<RuleName> {
+@Table(name = "rule")
+public class Rule implements UpdatableModel<Rule> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class RuleName implements UpdatableModel<RuleName> {
 
     private String sqlPart;
 
-    public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+    public Rule(String name, String description, String json, String template, String sqlStr, String sqlPart) {
         this.name = name;
         this.description = description;
         this.json = json;
@@ -39,7 +39,7 @@ public class RuleName implements UpdatableModel<RuleName> {
         this.sqlPart = sqlPart;
     }
 
-    public RuleName update(RuleName model) {
+    public Rule update(Rule model) {
 
         name = model.getName();
         description = model.getDescription();
