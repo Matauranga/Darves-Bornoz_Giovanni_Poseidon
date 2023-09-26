@@ -1,8 +1,8 @@
 INSERT INTO PUBLIC.USERS(FULLNAME, USERNAME, PASSWORD, ROLE)
 VALUES ('Administrator', 'admin', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'ADMIN'),
        ('User', 'user', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa', 'USER'),
-       ('GioAdmin', 'g', '$2a$10$no1Bnc0L/Jq5WnNtRA8pOu85KJmSfgZCavocgseLLKaExr4ccXNZy', 'ADMIN'),
-       ('GioUser', 'a', '$2a$10$i0PKMsYCLqV1nldoI6uM3ut8I9NIisPMJUHcfr6RPYYfyfVoEvWE2', 'USER'),
+       ('GioAdmin', 'Admin', '$2a$10$no1Bnc0L/Jq5WnNtRA8pOu85KJmSfgZCavocgseLLKaExr4ccXNZy', 'ADMIN'),
+       ('GioUser', 'User', '$2a$10$i0PKMsYCLqV1nldoI6uM3ut8I9NIisPMJUHcfr6RPYYfyfVoEvWE2', 'USER'),
        ('userForTest', 'userForTest', '$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS', 'USER'),
        ('adminForTest ', 'adminForTest ', '$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW', 'ADMIN');
 
