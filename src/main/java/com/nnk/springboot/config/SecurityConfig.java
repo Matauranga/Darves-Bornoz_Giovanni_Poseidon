@@ -41,7 +41,7 @@ public class SecurityConfig {
     }
 
     /**
-     * Custom security filter  //TODO
+     * Custom security filter
      *
      * @param http
      * @return
@@ -53,6 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> //TODO a revoir avant de soumettre
                         authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                //.requestMatchers("/bid/**", "/curvePoint/**", "/rating/**", "/trade/**", "/rule/**").hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/bid/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/curvePoint/**")).hasAnyAuthority("USER")
                                 .requestMatchers(new AntPathRequestMatcher("/rating/**")).hasAnyAuthority("USER")
@@ -62,7 +63,7 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
                                 //.requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
 
                 )
                 .formLogin(

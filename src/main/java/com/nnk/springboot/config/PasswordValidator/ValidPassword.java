@@ -1,4 +1,4 @@
-package com.nnk.springboot.PasswordValidator;
+package com.nnk.springboot.config.PasswordValidator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
