@@ -21,9 +21,9 @@ VALUES (null, null, null, 1, null, null, null, 'Test Account A', null, null, nul
 
 
 INSERT INTO PUBLIC.CURVEPOINT (CURVE_ID, TERM, "value", AS_OF_DATE, CREATION_DATE)
-VALUES (null, 10, 1, null, null),
-       (null, 20, 2, null, null),
-       (null, 5, 5, null, null);
+VALUES (1, 10, 1, null, null),
+       (4, 20, 2, null, null),
+       (8, 5, 5, null, null);
 
 
 INSERT INTO PUBLIC.RATING (ORDER_NUMBER, FITCH_RATING, MOODYS_RATING, SANDPRATING)

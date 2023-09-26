@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,7 @@ public class CurvePoint implements UpdatableModel<CurvePoint> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull(message = "Must not be null")
     private Integer curveId;
 
     private Timestamp asOfDate;
@@ -32,7 +34,8 @@ public class CurvePoint implements UpdatableModel<CurvePoint> {
 
     private Timestamp creationDate;
 
-    public CurvePoint(Double term, Double value) { //TODO pk avant du CurveID dans le constru et pk curveID tout court
+    public CurvePoint(Integer curveId, Double term, Double value) { //TODO pk avant du CurveID dans le constru et pk curveID tout court
+        this.curveId = curveId;
         this.term = term;
         this.value = value;
     }

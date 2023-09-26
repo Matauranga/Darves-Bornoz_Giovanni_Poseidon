@@ -29,7 +29,7 @@ class CurvePointServiceImplTest {
     @Test
     void add() {
         //Given a curve point to add
-        CurvePoint curvePoint = new CurvePoint(90d, 90d);
+        CurvePoint curvePoint = new CurvePoint(1, 90d, 90d);
 
         //When we add the curve point
         when(curvePointRepository.save(any())).thenReturn(curvePoint);
@@ -43,7 +43,7 @@ class CurvePointServiceImplTest {
     @Test
     void getById() {
         //Given an initial curve point
-        CurvePoint curvePointToFind = new CurvePoint(91d, 91d);
+        CurvePoint curvePointToFind = new CurvePoint(2, 91d, 91d);
         Integer curvePointID = curvePointToFind.getId();
 
         //When we try to get the curve point
@@ -102,8 +102,8 @@ class CurvePointServiceImplTest {
     @Test
     void update() {
         //Given an initial curvePoint and an update
-        CurvePoint initialCurvePoint = new CurvePoint(92d, 93d);
-        CurvePoint updatedCurvePoint = new CurvePoint(94d, 95d);
+        CurvePoint initialCurvePoint = new CurvePoint(3, 92d, 93d);
+        CurvePoint updatedCurvePoint = new CurvePoint(4, 94d, 95d);
         updatedCurvePoint.setId(initialCurvePoint.getId());
 
         //When we try to update the curvePoint

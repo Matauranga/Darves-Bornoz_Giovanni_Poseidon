@@ -56,7 +56,7 @@ class CurveControllerTest {
     @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
     void validate() throws Exception {
         //Given an initial curvePoint
-        CurvePoint curvePoint = new CurvePoint(1.0, 1.0);
+        CurvePoint curvePoint = new CurvePoint(1, 1.0, 1.0);
 
         //When we initiate the request
         mockMvc.perform(post("/curvePoint/validate")
@@ -87,7 +87,7 @@ class CurveControllerTest {
     @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
     void updateCurvePoint() throws Exception {
         //Given an curvePoint updated
-        CurvePoint curvePointUpdated = new CurvePoint(55.0, 55.0);
+        CurvePoint curvePointUpdated = new CurvePoint(2, 55.0, 55.0);
 
         //When we initiate the request
         mockMvc.perform(post("/curvePoint/update/2")
