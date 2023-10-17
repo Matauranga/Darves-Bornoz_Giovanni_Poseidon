@@ -33,21 +33,15 @@ class LoginControllerTest {
                 .andExpect(content().string(containsString("Login with username and Password")));
     }
 
-    @DisplayName("je ne sais pas quoi tester") //Todo : ?????
+    @DisplayName("Test on /app/secure/article-details") //Todo franck
     @Test
-    void getAllUserArticles() {
-    }
+    @WithMockUser(username = "adminForTest", authorities = "ADMIN")
+    void getAllUserArticles() throws Exception {
 
-    @DisplayName("error 403")//Todo a voir avec frank
-    @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
-    void error() throws Exception {
-        //Given
-
-        //When we initiate the request
-        mockMvc.perform(get("/bid/list"))
+        mockMvc.perform(get("/app/secure/article-details"))
 
                 //Then we verify is all works correctly
-                .andExpect(status().isForbidden());
+                .andExpect(status().is3xxRedirection());
     }
+
 }
