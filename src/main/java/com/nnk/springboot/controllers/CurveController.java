@@ -86,14 +86,13 @@ public class CurveController {
     @PostMapping("/curvePoint/update/{id}")
     public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
 
+        curvePoint.setCurveId(id);
         if (result.hasErrors()) { //TODO a retirer
 
             return "curvePoint/update";
         }
 
-        curvePoint.setCurveId(id);
         curvePointService.update(curvePoint);
-
         return "redirect:/curvePoint/list";
     }
 

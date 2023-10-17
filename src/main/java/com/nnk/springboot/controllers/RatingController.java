@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class RatingController {
 
-    // todo : regarder @Qualifier
     private final CrudServiceInterface<Rating> ratingService;
 
     /**
@@ -88,14 +87,13 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 
+        rating.setId(id);
         if (result.hasErrors()) { //TODO a retirer
 
             return "rating/update";
         }
 
-        rating.setId(id);
         ratingService.update(rating);
-
         return "redirect:/rating/list";
     }
 

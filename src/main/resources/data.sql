@@ -4,7 +4,7 @@ VALUES ('Administrator', 'admin', '$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.
        ('GioAdmin', 'Admin', '$2a$10$no1Bnc0L/Jq5WnNtRA8pOu85KJmSfgZCavocgseLLKaExr4ccXNZy', 'ADMIN'),
        ('GioUser', 'User', '$2a$10$i0PKMsYCLqV1nldoI6uM3ut8I9NIisPMJUHcfr6RPYYfyfVoEvWE2', 'USER'),
        ('userForTest', 'userForTest', '$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS', 'USER'),
-       ('adminForTest ', 'adminForTest ', '$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW', 'ADMIN');
+       ('adminForTest ', 'adminForTest', '$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW', 'ADMIN');
 
 
 INSERT INTO PUBLIC.BID (ASK, ASK_QUANTITY, BID, BID_QUANTITY, BID_LIST_DATE, CREATION_DATE,

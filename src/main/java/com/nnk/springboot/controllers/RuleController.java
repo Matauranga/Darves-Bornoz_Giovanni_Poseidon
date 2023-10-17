@@ -86,14 +86,13 @@ public class RuleController {
     @PostMapping("/rule/update/{id}")
     public String updateRule(@PathVariable("id") Integer id, @Valid Rule rule, BindingResult result) {
 
+        rule.setId(id);
         if (result.hasErrors()) { //TODO a retirer
 
             return "rule/update";
         }
 
-        rule.setId(id);
         ruleService.update(rule);
-
         return "redirect:/rule/list";
     }
 

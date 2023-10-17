@@ -86,14 +86,12 @@ public class BidController {
     @PostMapping("/bid/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid, BindingResult result) {
 
+        bid.setBidListId(id);
         if (result.hasErrors()) {
-
             return "bid/update";
         }
 
-        bid.setBidListId(id);
         this.bidService.update(bid);
-
         return "redirect:/bid/list";
     }
 

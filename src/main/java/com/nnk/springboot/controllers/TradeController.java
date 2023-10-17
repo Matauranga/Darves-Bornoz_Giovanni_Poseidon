@@ -86,14 +86,13 @@ public class TradeController {
     @PostMapping("/trade/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 
+        trade.setTradeId(id);
         if (result.hasErrors()) { //TODO a retirer
 
             return "trade/update";
         }
 
-        trade.setTradeId(id);
         tradeService.update(trade);
-
         return "redirect:/trade/list";
     }
 
