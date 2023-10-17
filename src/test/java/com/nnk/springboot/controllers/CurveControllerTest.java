@@ -10,10 +10,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -34,7 +34,8 @@ class CurveControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Curve Point List")));
+                .andExpect(model().attributeExists("curvePoints"))
+                .andExpect(model().attribute("curvePoints", hasSize(3)));
     }
 
     @DisplayName("Try to perform method get on /curvePoint/add")
@@ -65,6 +66,22 @@ class CurveControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("Try to perform method post on /curvePoint/validate with not valid object")
+    @Test
+    @WithMockUser(username = "userForTest", authorities = "USER")
+    void throwNotValidObject() throws Exception {
+        //Given an initial curvePoint
+        CurvePoint curvePoint = new CurvePoint(null, 1.0, 1.0);
+
+        //When we initiate the request
+        mockMvc.perform(post("/curvePoint/validate")
+                        .flashAttr("curvePoint", curvePoint))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify the
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method get on /curvePoint/update/{id}")
