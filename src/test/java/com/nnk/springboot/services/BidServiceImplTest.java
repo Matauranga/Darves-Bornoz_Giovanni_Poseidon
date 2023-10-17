@@ -51,8 +51,8 @@ public class BidServiceImplTest {
 
         //Then we verify if this have works correctly
         verify(bidRepository, times(1)).findById(any());
-        //assertThat(response).isNotNull(); //todo impossible d utilser du empty ou contains pourquoi ?
-        assertThat(response).isEqualTo(bidToFind);
+        assertThat(response).isNotNull()
+                .isEqualTo(bidToFind);
     }
 
     @DisplayName("Try to get a bid by Id but throw not found exception")

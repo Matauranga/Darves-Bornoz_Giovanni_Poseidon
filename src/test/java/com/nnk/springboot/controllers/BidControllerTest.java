@@ -10,10 +10,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -25,7 +25,7 @@ class BidControllerTest {
 
     @DisplayName("Try to perform method get on /bid/list")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void getBidList() throws Exception {
         //Given
 
@@ -34,12 +34,13 @@ class BidControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Test Account A")));
+                .andExpect(model().attributeExists("bidList"))
+                .andExpect(model().attribute("bidList", hasSize(4)));
     }
 
     @DisplayName("Try to perform method get on /bid/add")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void getAddBidForm() throws Exception {
         //Given
 
@@ -48,12 +49,12 @@ class BidControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Add New Bid")));
+                .andExpect(model().attributeExists("bid"));
     }
 
     @DisplayName("Try to perform method post on /bid/validate")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void postAddBidValidate() throws Exception {
         //Given an initial Bid
         Bid bid = new Bid("Account Test", "Type Test", 10d);
@@ -64,15 +65,15 @@ class BidControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection());
     }
 
     @DisplayName("Try to perform method post on /bid/validate but have error")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void postAddBidValidateError() throws Exception {
         //Given an initial Bid
-        Bid bid = new Bid("", "Type Test", 10d);
+        Bid bid = new Bid("     ", "Type Test", 10d);
 
         //When we initiate the request
         mockMvc.perform(post("/bid/validate")
@@ -85,7 +86,7 @@ class BidControllerTest {
 
     @DisplayName("Try to perform method get on /bid/update/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void showUpdateForm() throws Exception {
         //Given
 
@@ -94,13 +95,15 @@ class BidControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Update Bid")))
-                .andExpect(content().string(containsString("Test Account B")));
+                .andExpect(model().attributeExists("bid"))
+                .andExpect(model().attribute("bid", hasProperty("bidQuantity", is(2.0))))
+                .andExpect(model().attribute("bid", hasProperty("account", is("Test Account B"))))
+                .andExpect(model().attribute("bid", hasProperty("type", is("Test Type B"))));
     }
 
     @DisplayName("Try to perform method post on /bid/update/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void updateBid() throws Exception {
         //Given an Bid updated
         Bid bidUpdated = new Bid("Account Test Updated", "Type Test Updated", 20d);
@@ -111,12 +114,12 @@ class BidControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection());
     }
 
     @DisplayName("Try to perform method post on /bid/update/{id} but have error")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void updateBidError() throws Exception {
         //Given an Bid updated
         Bid bidUpdated = new Bid("", "", 0d);
@@ -132,7 +135,7 @@ class BidControllerTest {
 
     @DisplayName("Try to perform method get on /bid/delete/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void deleteBid() throws Exception {
         //Given
 

@@ -52,13 +52,12 @@ public class BidController {
     @PostMapping("/bid/validate")
     public String addBid(@Valid Bid bid, BindingResult result) {
 
-        if (!result.hasErrors()) {
-
-            bidService.add(bid);
-            return "redirect:/bid/list";
+        if (result.hasErrors()) {
+            return "bid/add";
         }
 
-        return "bid/add";
+        bidService.add(bid);
+        return "redirect:/bid/list";
     }
 
     /**
@@ -87,6 +86,7 @@ public class BidController {
     public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid, BindingResult result) {
 
         bid.setBidListId(id);
+
         if (result.hasErrors()) {
             return "bid/update";
         }
