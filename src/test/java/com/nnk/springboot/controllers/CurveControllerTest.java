@@ -25,7 +25,7 @@ class CurveControllerTest {
 
     @DisplayName("Try to perform method get on /curvePoint/list")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void getCurvePointList() throws Exception {
         //Given
 
@@ -39,7 +39,7 @@ class CurveControllerTest {
 
     @DisplayName("Try to perform method get on /curvePoint/add")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void getAddCurvePointForm() throws Exception {
         //Given
 
@@ -48,28 +48,28 @@ class CurveControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Add New Curve Point")));
+                .andExpect(model().attributeExists("curvePoint"));
     }
 
     @DisplayName("Try to perform method post on /curvePoint/validate")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void validate() throws Exception {
         //Given an initial curvePoint
         CurvePoint curvePoint = new CurvePoint(1, 1.0, 1.0);
 
         //When we initiate the request
         mockMvc.perform(post("/curvePoint/validate")
-                        .flashAttr("curvePoints", curvePoint))
+                        .flashAttr("curvePoint", curvePoint))
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection());
     }
 
     @DisplayName("Try to perform method get on /curvePoint/update/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void showUpdateForm() throws Exception {
         //Given
 
@@ -78,29 +78,48 @@ class CurveControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Update CurvePoint")))
-                .andExpect(content().string(containsString("10.0")));
+                .andExpect(model().attributeExists("curvePoint"))
+                .andExpect(model().attribute("curvePoint", hasProperty("curveId", is(1))))
+                .andExpect(model().attribute("curvePoint", hasProperty("term", is(10.0))))
+                .andExpect(model().attribute("curvePoint", hasProperty("value", is(1.0))));
     }
 
     @DisplayName("Try to perform method post on /curvePoint/update/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void updateCurvePoint() throws Exception {
         //Given an curvePoint updated
         CurvePoint curvePointUpdated = new CurvePoint(2, 55.0, 55.0);
 
         //When we initiate the request
         mockMvc.perform(post("/curvePoint/update/2")
-                        .flashAttr("curvePoints", curvePointUpdated))
+                        .flashAttr("curvePoint", curvePointUpdated))
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection())
+        ;
+    }
+
+    @DisplayName("Try to perform method post on /curvePoint/update/{id} with not valid object")
+    @Test
+    @WithMockUser(username = "userForTest", authorities = "USER")
+    void throwNotValidUpdateCurvePoint() throws Exception {
+        //Given an curvePoint updated
+        CurvePoint curvePointUpdated = new CurvePoint(null, 55.0, 55.0);
+
+        //When we initiate the request
+        mockMvc.perform(post("/curvePoint/update/2")
+                        .flashAttr("curvePoint", curvePointUpdated))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method get on /curvePoint/delete/{id}")
     @Test
-    @WithMockUser(username = "userForTest", password = "$2a$10$6X4gWIhEUoe/w.tX3sjO1OcCCaneAJxllOjNxDFQjjAYlVhMOdEGS", authorities = "USER")
+    @WithMockUser(username = "userForTest", authorities = "USER")
     void deleteCurvePoint() throws Exception {
         //Given
 

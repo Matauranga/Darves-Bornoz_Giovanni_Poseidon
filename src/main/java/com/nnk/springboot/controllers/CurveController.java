@@ -52,13 +52,12 @@ public class CurveController {
     @PostMapping("/curvePoint/validate")
     public String addCurvePoint(@Valid CurvePoint curvePoint, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO a retirer
-
-            curvePointService.add(curvePoint);
-            return "redirect:/curvePoint/list";
+        if (result.hasErrors()) {
+            return "curvePoint/add";
         }
 
-        return "curvePoint/add";
+        curvePointService.add(curvePoint);
+        return "redirect:/curvePoint/list";
     }
 
     /**
@@ -87,8 +86,8 @@ public class CurveController {
     public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
 
         curvePoint.setCurveId(id);
-        if (result.hasErrors()) { //TODO a retirer
 
+        if (result.hasErrors()) {
             return "curvePoint/update";
         }
 
