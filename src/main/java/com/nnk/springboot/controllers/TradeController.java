@@ -51,13 +51,12 @@ public class TradeController {
     @PostMapping("/trade/validate")
     public String addTrade(@Valid Trade trade, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO a retirer
-
-            tradeService.add(trade);
-            return "redirect:/trade/list";
+        if (result.hasErrors()) {
+            return "trade/add";
         }
 
-        return "trade/add";
+        tradeService.add(trade);
+        return "redirect:/trade/list";
     }
 
     /**
@@ -87,8 +86,8 @@ public class TradeController {
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 
         trade.setTradeId(id);
-        if (result.hasErrors()) { //TODO a retirer
 
+        if (result.hasErrors()) {
             return "trade/update";
         }
 

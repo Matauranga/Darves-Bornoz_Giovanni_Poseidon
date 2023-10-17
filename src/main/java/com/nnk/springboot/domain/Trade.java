@@ -63,7 +63,7 @@ public class Trade implements UpdatableModel<Trade> {
 
     private String side;
 
-    public Trade(String account, String type, Double buyQuantity) { // TODO : 2 ou 3 args ?? de base 2 et ça marche
+    public Trade(String account, String type, Double buyQuantity) {
         this.account = account;
         this.type = type;
         this.buyQuantity = buyQuantity;
