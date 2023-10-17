@@ -53,16 +53,15 @@ public class UserController {
     @PostMapping("/user/validate")
     public String addUser(@Valid User user, BindingResult result) {
 
-        if (!result.hasErrors()) {
-
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(encoder.encode(user.getPassword()));
-            userService.add(user);
-
-            return "redirect:/user/list";
+        if (result.hasErrors()) {
+            return "user/add";
         }
 
-        return "user/add";
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+        userService.add(user);
+
+        return "redirect:/user/list";
     }
 
     /**
@@ -95,6 +94,7 @@ public class UserController {
                              BindingResult result) {
 
         user.setId(id);
+
         if (result.hasErrors()) {
             return "user/update";
         }

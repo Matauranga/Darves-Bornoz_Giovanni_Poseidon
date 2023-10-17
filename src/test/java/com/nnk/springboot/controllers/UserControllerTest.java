@@ -10,10 +10,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -25,7 +25,7 @@ class UserControllerTest {
 
     @DisplayName("Try to perform method get on /user/list")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void getUserList() throws Exception {
         //Given
 
@@ -34,13 +34,13 @@ class UserControllerTest {
                 .andExpect(status().isOk())
 
                 //Then we verify is all works correctly
-                .andExpect(content().string(containsString("User List")))
-                .andExpect(content().string(containsString("Administrator")));
+                .andExpect(model().attributeExists("users"))
+                .andExpect(model().attribute("users", hasSize(6)));
     }
 
     @DisplayName("Try to perform method get on /user/add")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void addUserForm() throws Exception {
         //Given
 
@@ -49,12 +49,12 @@ class UserControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Add New User")));
+                .andExpect(model().attributeExists("user"));
     }
 
     @DisplayName("Try to perform method post on /user/validate")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void addUser() throws Exception {
         //Given an initial user
         User user = new User("UserNameTest", "Test123!", "FullNameTest", "USER");
@@ -65,12 +65,28 @@ class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("Try to perform method post on /user/validate with not valid object")
+    @Test
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
+    void throwNotValidObjectPostAddUser() throws Exception {
+        //Given an initial user
+        User user = new User("       ", "Test123!", "FullNameTest", "USER");
+
+        //When we initiate the request
+        mockMvc.perform(post("/user/validate")
+                        .flashAttr("user", user))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method post on /user/validate with password rules not respected")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void addUserWithWrongPassword() throws Exception {
         //Given an initial user
         User user = new User("UserNameTest", "test!", "FullNameTest", "USER");
@@ -87,7 +103,7 @@ class UserControllerTest {
 
     @DisplayName("Try to perform method get on /user/update/{id}")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void showUpdateForm() throws Exception {
         //Given
 
@@ -96,16 +112,19 @@ class UserControllerTest {
 
                 //Then we verify is all works correctly
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Update User")))
-                .andExpect(content().string(containsString("User")));
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", hasProperty("fullname", is("User"))))
+                .andExpect(model().attribute("user", hasProperty("username", is("user"))))
+                //  .andExpect(model().attribute("user", hasProperty("password", is(1.0))))
+                .andExpect(model().attribute("user", hasProperty("role", is("USER"))));
     }
 
     @DisplayName("Try to perform method post on /user/update/{id}")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void updateUser() throws Exception {
         //Given a user updated
-        User userUpdated = new User("Test", "Test123!", "Test", "ADMIN"); //TODO : check note mdp
+        User userUpdated = new User("Test", "Test123!", "Test", "ADMIN");
 
         //When we initiate the request
         mockMvc.perform(post("/user/update/3")
@@ -113,12 +132,28 @@ class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isFound());
+                .andExpect(status().is3xxRedirection());
+    }
+
+    @DisplayName("Try to perform method post on /user/update/{id} with not valid object")
+    @Test
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
+    void throwNotValidUpdateUser() throws Exception {
+        //Given a user updated
+        User userUpdated = new User("              ", "Test123!", "Test", "ADMIN");
+
+        //When we initiate the request
+        mockMvc.perform(post("/user/update/3")
+                        .flashAttr("user", userUpdated))
+                .andDo(MockMvcResultHandlers.print())
+
+                //Then we verify is all works correctly
+                .andExpect(status().isOk());
     }
 
     @DisplayName("Try to perform method post on /user/update/{id} with password rules not respected")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void updateUserWrongPassword() throws Exception {
         //Given a user updated
         User userUpdated = new User("Test", "Test", "Test", "ADMIN");
@@ -134,7 +169,7 @@ class UserControllerTest {
 
     @DisplayName("Try to perform method get on /user/delete/{id}")
     @Test
-    @WithMockUser(username = "adminForTest ", password = "$2a$10$2AwCI/q1h4XoyPV6c2V9auqiRvJGgI7gtlWVDzUVXZ1h1Ih6tWpeW", authorities = "ADMIN")
+    @WithMockUser(username = "adminForTest ", authorities = "ADMIN")
     void deleteUser() throws Exception {
         //Given
 
