@@ -1,10 +1,8 @@
 package com.nnk.springboot.config;
 
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.exceptions.NotFoundException;
-import com.nnk.springboot.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,13 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,8 +26,6 @@ class LoginSuccessHandlerTest {
     @InjectMocks
     LoginSuccessHandler loginSuccessHandler;
     @Mock
-    UserRepository userRepository;
-    @Mock
     Authentication authentication;
     @Mock
     HttpServletResponse response;
@@ -39,13 +34,13 @@ class LoginSuccessHandlerTest {
     @DisplayName("Test authentication success for user authority ")
     @Test
     void onAuthenticationSuccessUser() throws IOException {
-        //Given a user
-        User user = new User("UserNameTest", "TEST", "FullNameTest", "USER");
+        //Given a user authority
+        Collection grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("USER"));
         String redirectURL = "/bid/list";
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         //When we try to redirect correctly
-        when(userRepository.findUserByUsername(any())).thenReturn(Optional.of(user));
+        when(authentication.getAuthorities()).thenReturn(grantedAuthorities);
         loginSuccessHandler.onAuthenticationSuccess(null, response, authentication);
 
         //Then we verify if this have works correctly
@@ -58,12 +53,12 @@ class LoginSuccessHandlerTest {
     @Test
     void onAuthenticationSuccessAdmin() throws IOException {
         //Given a user
-        User user = new User("UserNameTest", "TEST", "FullNameTest", "ADMIN");
+        Collection grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("ADMIN"));
         String redirectURL = "/user/list";
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         //When we try to redirect correctly
-        when(userRepository.findUserByUsername(any())).thenReturn(Optional.of(user));
+        when(authentication.getAuthorities()).thenReturn(grantedAuthorities);
         loginSuccessHandler.onAuthenticationSuccess(null, response, authentication);
 
         //Then we verify if this have works correctly
@@ -76,31 +71,17 @@ class LoginSuccessHandlerTest {
     @Test
     void onAuthenticationSuccessRoleNotFound() throws IOException {
         //Given a user
-        User user = new User("UserNameTest", "TEST", "FullNameTest", "");
+        Collection grantedAuthorities = Lists.newArrayList(new SimpleGrantedAuthority("NONE"));
         String redirectURL = "/403";
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
 
         //When we try to redirect correctly
-        when(userRepository.findUserByUsername(any())).thenReturn(Optional.of(user));
+        when(authentication.getAuthorities()).thenReturn(grantedAuthorities);
         loginSuccessHandler.onAuthenticationSuccess(null, response, authentication);
 
         //Then we verify if this have works correctly
         verify(response).sendRedirect(captor.capture());
         assertThat(captor.getValue()).isEqualTo(redirectURL);
-
-    }
-
-    @DisplayName("Test authentication for user not found")
-    @Test
-    void onAuthenticationSuccessUserNotFound() throws IOException {
-        //Given
-
-        //When we try to redirect correctly
-        when(userRepository.findUserByUsername(any())).thenReturn(Optional.empty());
-        String errMsg = assertThrows(NotFoundException.class, () -> loginSuccessHandler.onAuthenticationSuccess(null, response, authentication)).getMessage();
-
-        //Then we verify if this have works correctly
-        assertThat(errMsg).contains("User not found.");
 
     }
 
