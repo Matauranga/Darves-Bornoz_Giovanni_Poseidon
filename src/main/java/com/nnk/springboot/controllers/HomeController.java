@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class HomeController {
+public class HomeController { //TODO a revoir au niveau des redirections et chemins voulus
 
     /**
      * Handler method to handle home request
@@ -24,7 +24,7 @@ public class HomeController {
      * @param model ???
      * @return the page to ????
      */
-    @RequestMapping("/admin/home") //Todo : cest quoi ça ?
+    @RequestMapping("/admin/home")
     public String getAdminHome(Model model) {
         return "redirect:/bid/list";
     }

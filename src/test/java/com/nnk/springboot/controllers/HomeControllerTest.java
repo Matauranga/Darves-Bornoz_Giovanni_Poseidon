@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
@@ -34,6 +35,14 @@ class HomeControllerTest {
 
     @DisplayName("je ne sais pas quoi tester") //Todo : ?????
     @Test
-    void getAdminHome() {
+    @WithMockUser(username = "adminForTest", authorities = "ADMIN")
+    void getAdminHome() throws Exception {
+        //Given
+
+        //When we initiate the request
+        mockMvc.perform(get("/admin/home"))
+
+                //Then we verify is all works correctly
+                .andExpect(status().is3xxRedirection());
     }
 }
