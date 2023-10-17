@@ -87,8 +87,8 @@ public class BidServiceImplTest {
 
     @DisplayName("Try to delete a bid")
     @Test
-    void deleteById() {//Todo a voir avec frank
-        //Given a initial bid
+    void deleteById() {
+        //Given an initial bid
         Bid bidToDelete = new Bid("Account To Delete Test", "Type To Delete Test", 1d);
 
         //When we try to delete the bid

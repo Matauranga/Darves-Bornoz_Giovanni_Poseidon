@@ -11,10 +11,10 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> { //TODO : à regarder
 
     /**
+     * Method that find a user by username
      *
-     *
-     * @param username
-     * @return
+     * @param username the username
+     * @return the user
      */
     Optional<User> findUserByUsername(String username);
 

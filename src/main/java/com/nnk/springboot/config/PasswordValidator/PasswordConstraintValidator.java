@@ -14,11 +14,8 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
     }
 
     /**
-     * TODO : a faire
+     * Method that checks if the password entry matches certain conditions
      *
-     * @param password
-     * @param context
-     * @return
      */
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {

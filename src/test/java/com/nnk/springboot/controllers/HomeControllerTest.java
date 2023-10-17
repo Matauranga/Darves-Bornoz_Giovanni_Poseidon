@@ -33,7 +33,7 @@ class HomeControllerTest {
                 .andExpect(content().string(containsString("HOME PAGE")));
     }
 
-    @DisplayName("je ne sais pas quoi tester") //Todo : ?????
+    @DisplayName("Test on /admin/home")
     @Test
     @WithMockUser(username = "adminForTest", authorities = "ADMIN")
     void getAdminHome() throws Exception {
