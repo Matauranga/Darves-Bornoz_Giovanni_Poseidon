@@ -10,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -45,26 +44,6 @@ class CustomUserDetailsServiceTest {
         assertThat(response.getAuthorities().toString()).isEqualTo("[" + user.getRole() + "]");
     }
 
-    @DisplayName("Try to load a user connected")//TODO : mock customUserDetailsService.getAuthorities(username)
-    @Test
-    @WithUserDetails
-    void loadUserByUsername() {
-//        //Given a user
-//        User user = new User("UserNameTest", "TEST", "FullNameTest", "USER");
-//
-//        Collection<? extends GrantedAuthority> authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
-//
-//        //When we try to load information
-//        when(userRepository.findUserByUsername(any())).thenReturn(Optional.of(user));
-//        when(customUserDetailsService.getAuthorities(any())).thenReturn(authorities);
-//        UserDetails response = customUserDetailsService.loadUserByUsername(user.getUsername());
-//
-//
-//        //Then we verify if this have works correctly
-//        verify(userRepository, times(2)).findUserByUsername(any());
-//        assertThat(response.getUsername()).isEqualTo(user.getUsername());
-//        assertThat(response.getPassword()).isEqualTo(user.getPassword());
-    }
 
     @DisplayName("Try to load a user with wrong information")
     @Test
