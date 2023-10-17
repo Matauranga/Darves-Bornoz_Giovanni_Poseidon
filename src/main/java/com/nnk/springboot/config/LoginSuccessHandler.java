@@ -1,24 +1,17 @@
 package com.nnk.springboot.config;
 
-import com.nnk.springboot.domain.User;
-import com.nnk.springboot.exceptions.NotFoundException;
-import com.nnk.springboot.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-
-    private final UserRepository userRepository;
-
-    public LoginSuccessHandler(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     /**
      * Method to redirect the user to the correct "home page" based on their authority
@@ -29,16 +22,18 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException { //TODO à regarder avec Frank
+                                        Authentication authentication) throws IOException {
 
         String redirectURL;
-        User user = userRepository.findUserByUsername(authentication.getName())
-                .orElseThrow(() -> new NotFoundException("User not found."));
+        List<String> roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
 
-        if (user.getRole().contains("ADMIN")) {
+        if (roles.contains("ADMIN")) {
             redirectURL = "/user/list";
 
-        } else if (user.getRole().contains("USER")) {
+        } else if (roles.contains("USER")) {
             redirectURL = "/bid/list";
 
         } else {

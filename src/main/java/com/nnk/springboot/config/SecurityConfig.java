@@ -1,19 +1,18 @@
 package com.nnk.springboot.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.stream.Stream;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -23,17 +22,13 @@ public class SecurityConfig {
 
     private final LoginSuccessHandler loginSuccessHandler;
 
-    private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(LoginSuccessHandler loginSuccessHandler) {
         this.loginSuccessHandler = loginSuccessHandler;
     }
 
     /**
      * Method define the Password Encoder
      *
-     * @return The Bcrypt process to encode
      */
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -43,25 +38,21 @@ public class SecurityConfig {
     /**
      * Custom security filter
      *
-     * @param http
-     * @return
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        AntPathRequestMatcher[] authenticatedPaths = Stream.of("/bid/**", "/curvePoint/**", "/rating/**", "/trade/**", "/rule/**")
+                .map(AntPathRequestMatcher::new)
+                .toArray(AntPathRequestMatcher[]::new);
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests((authorize) -> //TODO a revoir avant de soumettre
+                .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                //.requestMatchers("/bid/**", "/curvePoint/**", "/rating/**", "/trade/**", "/rule/**").hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/bid/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/curvePoint/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/rating/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/rule/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/trade/**")).hasAnyAuthority("USER")
-                                .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
+                                .requestMatchers(authenticatedPaths).hasAnyAuthority("USER", "ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
-                                //.requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
 
@@ -82,23 +73,16 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/app/login")
 
                 )
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .sessionManagement(session ->
+                        session
+                                .sessionFixation().migrateSession()
+                                .maximumSessions(1)
+                                .expiredUrl("/app/login")
+                );
 
         return http.build();
     }
-
-    /**
-     * Method cest ce qui permet l'authentication par BDD ? //TODO frank
-     *
-     * @param auth
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
-
 }
 
 
