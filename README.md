@@ -2,27 +2,46 @@
 
 
 
-PayMyBuddy,an Openclassrooms project.  
-A project that aims to develop a web application to easily exchange money.
+Poseidon,an Openclassrooms project.  
+A project that aims to develop different market tools, to generate financial transaction.
 
 ## Technologies
 * Java 17
 * Maven
-* Spring Boot 3.1.1
+* Spring Boot 3.1.3
 * Spring Data JPA
 * Spring Security 6
 * Database H2
-* Bootstrap 5.1.3
-* Thymeleaf 3.1.2
+* Bootstrap 4.3.1
+* Thymeleaf
 
 ## Usage
-1. Open project
-2. Run the application, the database will set up automatically
-3. Go to http://localhost:8080/login
-4. Create a new account using register page (click on "Click here" under the login button) or use this Email/Password : "g@mail.fr" - "a".
-5. On the transfer page make the transfers you want.
-6. On the profile page, manage your account and friend list.
-7. On the Tax-view page (future admin page only), view all transactions and related taxes.
+1. Open project.
+2. Run the application.
+3. Go to http://localhost:8080/app/login
+4. Use the User/Password combination:
+   * for user authorization --> "User"  - "a" - Access to bid, curvepoint, rating, rule and trade pages.
+   * for admin authorization --> "Admin" - "g" - The same access as a user, plus the user management page.
 
 If you want to watch database's data go to http://localhost:8080/h2-console (refer to application.properties to see username and password)
 
+
+# Screenshot
+### Login page
+![loginPage.png](documents/loginPage.png)
+
+### With user authorization : This example works for all entities
+#### Bid page
+![bidList.png](documents/bidList.png)
+#### Add Bid
+![addBid.png](documents/addBid.png)
+#### Update Bid
+![updateBid.png](documents/updateBid.png)
+
+### With Admin authorization :
+#### User management
+![userList.png](documents/userList.png)
+#### Add new user
+![addUser.png](documents/addUser.png)
+#### edit a user
+![editUser.png](documents/editUser.png)
