@@ -82,7 +82,9 @@ class TradeControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("trade/add"))
+                .andExpect(model().attributeExists("trade"));
     }
 
     @DisplayName("Try to perform method get on /trade/update/{id}")
@@ -131,7 +133,10 @@ class TradeControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("trade/update"))
+                .andExpect(model().attributeExists("trade"))
+                .andExpect(model().attribute("trade", hasProperty("tradeId", is(3))));
     }
 
     @DisplayName("Try to perform method get on /trade/delete/{id}")

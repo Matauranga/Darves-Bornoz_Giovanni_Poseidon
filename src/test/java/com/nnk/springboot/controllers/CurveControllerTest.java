@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,7 +80,9 @@ class CurveControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify the
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("curvePoint/add"))
+                .andExpect(model().attributeExists("curvePoint"));
     }
 
     @DisplayName("Try to perform method get on /curvePoint/update/{id}")
@@ -131,7 +132,10 @@ class CurveControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("curvePoint/update"))
+                .andExpect(model().attributeExists("curvePoint"))
+                .andExpect(model().attribute("curvePoint", hasProperty("id", is(2))));
     }
 
     @DisplayName("Try to perform method get on /curvePoint/delete/{id}")

@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,7 +80,9 @@ class BidControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("bid/add"))
+                .andExpect(model().attributeExists("bid"));
     }
 
     @DisplayName("Try to perform method get on /bid/update/{id}")
@@ -130,7 +131,10 @@ class BidControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("bid/update"))
+                .andExpect(model().attributeExists("bid"))
+                .andExpect(model().attribute("bid", hasProperty("bidListId", is(3))));
     }
 
     @DisplayName("Try to perform method get on /bid/delete/{id}")

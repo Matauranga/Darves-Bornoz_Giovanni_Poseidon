@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -81,7 +80,9 @@ class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/add"))
+                .andExpect(model().attributeExists("user"));
     }
 
     @DisplayName("Try to perform method post on /user/validate with password rules not respected")
@@ -115,7 +116,6 @@ class UserControllerTest {
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attribute("user", hasProperty("fullname", is("User"))))
                 .andExpect(model().attribute("user", hasProperty("username", is("user"))))
-                //  .andExpect(model().attribute("user", hasProperty("password", is(1.0))))
                 .andExpect(model().attribute("user", hasProperty("role", is("USER"))));
     }
 
@@ -148,7 +148,10 @@ class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/update"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", hasProperty("id", is(3))));
     }
 
     @DisplayName("Try to perform method post on /user/update/{id} with password rules not respected")
@@ -164,7 +167,10 @@ class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
 
                 //Then we verify is all works correctly
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("user/update"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attribute("user", hasProperty("id", is(3))));
     }
 
     @DisplayName("Try to perform method get on /user/delete/{id}")
