@@ -52,6 +52,7 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers(authenticatedPaths).hasAnyAuthority("USER", "ADMIN")
+                                .requestMatchers(new AntPathRequestMatcher("/user/**")).hasAuthority("ADMIN")
                                 .requestMatchers(new AntPathRequestMatcher("/home")).permitAll()
                                 .requestMatchers(toH2Console()).permitAll()
                                 .anyRequest().authenticated()
