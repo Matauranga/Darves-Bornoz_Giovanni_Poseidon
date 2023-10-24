@@ -14,14 +14,15 @@ A project that aims to develop different market tools, to generate financial tra
 * Database H2
 * Bootstrap 4.3.1
 * Thymeleaf
+* Lombok 1.18.28
 
 ## Usage
 1. Open project.
-2. Run the application.
+2. Run the application with profile "application.properties"
 3. Go to http://localhost:8080/app/login
 4. Use the User/Password combination:
-   * for user authorization --> "User"  - "a" - Access to bid, curvepoint, rating, rule and trade pages.
-   * for admin authorization --> "Admin" - "g" - The same access as a user, plus the user management page.
+   * for user authorization --> Login : "User"  - Password : "a" - Access to bid, curvepoint, rating, rule and trade pages.
+   * for admin authorization --> Login : "Admin" - Password : "g" - The same access as a user, plus the user management page.
 
 If you want to watch database's data go to http://localhost:8080/h2-console (refer to application.properties to see username and password)
 
