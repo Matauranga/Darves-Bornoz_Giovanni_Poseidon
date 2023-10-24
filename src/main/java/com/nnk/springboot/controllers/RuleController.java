@@ -52,13 +52,12 @@ public class RuleController {
     @PostMapping("/rule/validate")
     public String addRule(@Valid Rule rule, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO a retirer
-
-            ruleService.add(rule);
-            return "redirect:/rule/list";
+        if (result.hasErrors()) {
+            return "rule/add";
         }
 
-        return "rule/add";
+        ruleService.add(rule);
+        return "redirect:/rule/list";
     }
 
     /**
@@ -87,8 +86,8 @@ public class RuleController {
     public String updateRule(@PathVariable("id") Integer id, @Valid Rule rule, BindingResult result) {
 
         rule.setId(id);
-        if (result.hasErrors()) { //TODO a retirer
 
+        if (result.hasErrors()) {
             return "rule/update";
         }
 

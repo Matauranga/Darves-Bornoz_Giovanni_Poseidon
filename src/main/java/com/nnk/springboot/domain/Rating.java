@@ -18,7 +18,7 @@ public class Rating implements UpdatableModel<Rating> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String moodysRating;
+    private String moodysRating;  //TODO :String?? int?? dans entity --> String / dans front --> number
 
     private String sandPRating;
 

@@ -33,7 +33,7 @@ class LoginControllerTest {
                 .andExpect(content().string(containsString("Login with username and Password")));
     }
 
-    @DisplayName("Test on /app/secure/article-details") //Todo franck
+    @DisplayName("Test on /app/secure/article-details")
     @Test
     @WithMockUser(username = "adminForTest", authorities = "ADMIN")
     void getAllUserArticles() throws Exception {

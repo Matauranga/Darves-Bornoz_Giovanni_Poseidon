@@ -53,13 +53,12 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String addRating(@Valid Rating rating, BindingResult result) {
 
-        if (!result.hasErrors()) { //TODO a retirer
-
-            ratingService.add(rating);
-            return "redirect:/rating/list";
+        if (result.hasErrors()) {
+            return "rating/add";
         }
 
-        return "rating/add";
+        ratingService.add(rating);
+        return "redirect:/rating/list";
     }
 
     /**
@@ -88,8 +87,8 @@ public class RatingController {
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 
         rating.setId(id);
-        if (result.hasErrors()) { //TODO a retirer
 
+        if (result.hasErrors()) {
             return "rating/update";
         }
 

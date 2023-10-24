@@ -77,7 +77,8 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .sessionManagement(session ->
                         session
-                                .sessionFixation().migrateSession()
+                                .sessionFixation()
+                                .migrateSession()
                                 .maximumSessions(1)
                                 .expiredUrl("/app/login")
                 );
