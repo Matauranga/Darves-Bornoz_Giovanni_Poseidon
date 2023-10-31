@@ -29,20 +29,20 @@ If you want to watch database's data go to http://localhost:8080/h2-console (ref
 
 # Screenshot
 ### Login page
-![loginPage.png](documents/loginPage.png)
+![loginPage.png](documents/loginPage.PNG)
 
 ### With user authorization : This example works for all entities
 #### Bid page
-![bidList.png](documents/bidList.png)
+![bidList.png](documents/bidList.PNG)
 #### Add Bid
-![addBid.png](documents/addBid.png)
+![addBid.png](documents/addBid.PNG)
 #### Update Bid
-![updateBid.png](documents/updateBid.png)
+![updateBid.png](documents/updateBid.PNG)
 
 ### With Admin authorization :
 #### User management
-![userList.png](documents/userList.png)
+![userList.png](documents/userList.PNG)
 #### Add new user
-![addUser.png](documents/addUser.png)
+![addUser.png](documents/addUser.PNG)
 #### edit a user
-![editUser.png](documents/editUser.png)
+![editUser.png](documents/editUser.PNG)
